@@ -1,0 +1,142 @@
+import java.awt.EventQueue;
+
+public class Controller implements ControlInterface {
+
+	private Verwaltung vw;
+	@SuppressWarnings("unused")
+	private MainGUI mainGUI;
+	@SuppressWarnings("unused")
+	private NewGameGUI newGameGUI;
+	@SuppressWarnings("unused")
+	private NewTeamGUI newTeamGUI;
+	@SuppressWarnings("unused")
+	private NewPlayerGUI newPlayerGUI;
+	@SuppressWarnings("unused")
+	private SearchGameGUI getGameGUI;
+	@SuppressWarnings("unused")
+	private SearchTeamGUI getTeamGUI;
+	private Controller controller = this;
+
+	public Controller(Verwaltung pVW) {
+		vw = pVW;
+	}
+
+	public void startMainGUI() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					mainGUI = new MainGUI(controller);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public void startAddGameGUI() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					newGameGUI = new NewGameGUI(controller);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public void startAddTeamGUI() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					newTeamGUI = new NewTeamGUI(controller);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public void startAddPlayerGUI() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					newPlayerGUI = new NewPlayerGUI(controller);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public void startGetGameGUI() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					getGameGUI = new SearchGameGUI(controller);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public void startGetTeamGUI() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					getTeamGUI = new SearchTeamGUI(controller);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public List<Spiel> allGames() {
+		return vw.getSpieleListe();
+	}
+	
+	public List<Spieler> allPlayers(){
+		return vw.allPlayers();
+	}
+
+	public List<Team> ligaStand(int pGameID) {
+		return vw.ligaStand(pGameID);
+	}
+
+	public List<Team> listTeams(int pGameID) {
+		return vw.listTeams(pGameID);
+	}
+
+	public void addPlayer(String pName, int pJahr, int pGameID, int pTeamID) {
+		vw.addPlayer(pName, pJahr, pGameID, pTeamID);
+	}
+
+	public void addGame(String pTyp) {
+		vw.addGame(pTyp);
+	}
+
+	public void addTeam(String pName, int pGameID) {
+		vw.addTeam(pName, pGameID);
+	}
+
+	public void testData() {
+		vw.testData();
+	}
+
+	public Spiel findActiveGame(int pGameID) {
+		return vw.findActiveGame(pGameID);
+	}
+
+	public Team findActiveTeam(Spiel pGame, int pTeamID) {
+		return vw.findActiveTeam(pGame, pTeamID);
+	}
+
+}
