@@ -2,7 +2,7 @@ import java.awt.EventQueue;
 
 public class Controller implements ControlInterface {
 
-	private Verwaltung vw;
+	private VerwaltungsInterface vw;
 	@SuppressWarnings("unused")
 	private MainGUI mainGUI;
 	@SuppressWarnings("unused")
@@ -17,7 +17,7 @@ public class Controller implements ControlInterface {
 	private SearchTeamGUI getTeamGUI;
 	private Controller controller = this;
 
-	public Controller(Verwaltung pVW) {
+	public Controller(VerwaltungsInterface pVW) {
 		vw = pVW;
 	}
 

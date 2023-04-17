@@ -42,7 +42,7 @@ public class NewGameGUI {
 		frmNeuesTurnierErstellen = new JFrame();
 		frmNeuesTurnierErstellen.setTitle("Neues Turnier");
 		frmNeuesTurnierErstellen.setResizable(false);
-		frmNeuesTurnierErstellen.setBounds(100, 100, 450, 174);
+		frmNeuesTurnierErstellen.setBounds(100, 100, 271, 157);
 		frmNeuesTurnierErstellen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmNeuesTurnierErstellen.getContentPane().setLayout(null);
 		frmNeuesTurnierErstellen.setVisible(true);
@@ -66,7 +66,7 @@ public class NewGameGUI {
 				frmNeuesTurnierErstellen.dispose();
 			}
 		});
-		bSubmit.setBounds(172, 92, 89, 23);
+		bSubmit.setBounds(74, 88, 89, 23);
 		frmNeuesTurnierErstellen.getContentPane().add(bSubmit);
 	}
 }

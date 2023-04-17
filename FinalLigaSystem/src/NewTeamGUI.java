@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -14,7 +15,6 @@ public class NewTeamGUI {
 	JFrame frmNeuesTeam;
 	private JTextField tfName;
 	private Controller controller;
-	private JTextField tfID;
 	private MainGUI mainGUI;
 
 	/**
@@ -43,7 +43,7 @@ public class NewTeamGUI {
 		frmNeuesTeam = new JFrame();
 		frmNeuesTeam.setTitle("Neues Team");
 		frmNeuesTeam.setResizable(false);
-		frmNeuesTeam.setBounds(100, 100, 450, 206);
+		frmNeuesTeam.setBounds(100, 100, 401, 158);
 		frmNeuesTeam.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmNeuesTeam.getContentPane().setLayout(null);
 		frmNeuesTeam.setVisible(true);
@@ -61,23 +61,15 @@ public class NewTeamGUI {
 		bSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				int id = Integer.parseInt(tfID.getText());
+				JTable tableGames = mainGUI.getGameTable();
+				int id = (Integer) tableGames.getValueAt(tableGames.getSelectedRow(), 0);
 				String name = tfName.getText();
 				controller.addTeam(name, id);
 				mainGUI.updateTeams();
 				frmNeuesTeam.dispose();
 			}
 		});
-		bSubmit.setBounds(155, 130, 89, 23);
+		bSubmit.setBounds(141, 87, 89, 23);
 		frmNeuesTeam.getContentPane().add(bSubmit);
-		
-		JLabel lblSpielId = new JLabel("Spiel ID");
-		lblSpielId.setBounds(10, 80, 113, 14);
-		frmNeuesTeam.getContentPane().add(lblSpielId);
-		
-		tfID = new JTextField();
-		tfID.setColumns(10);
-		tfID.setBounds(155, 77, 222, 20);
-		frmNeuesTeam.getContentPane().add(tfID);
 	}
 }

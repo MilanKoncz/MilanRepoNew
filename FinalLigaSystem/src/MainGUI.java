@@ -141,7 +141,8 @@ public class MainGUI {
 		};
 		tableTeams.getTableHeader().setReorderingAllowed(false);
 		tableTeams.getTableHeader().setResizingAllowed(false);
-		tableTeams.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Team ID", "Team Name", "Members" }));
+		tableTeams
+				.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Team ID", "Team Name", "Members" }));
 		scrollPane_1.setViewportView(tableTeams);
 
 		JScrollPane scrollPane_2 = new JScrollPane();
@@ -156,7 +157,8 @@ public class MainGUI {
 		};
 		tablePlayers.getTableHeader().setReorderingAllowed(false);
 		tablePlayers.getTableHeader().setResizingAllowed(false);
-		tablePlayers.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Player ID", "Name", "Birthyear" }));
+		tablePlayers
+				.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Player ID", "Name", "Birthyear" }));
 		scrollPane_2.setViewportView(tablePlayers);
 
 		JScrollPane scrollPane_3 = new JScrollPane();
@@ -240,7 +242,7 @@ public class MainGUI {
 		listSelectionModel0.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent event) {
-				updateTeams();
+				updateTeams();																	//Game Table Listener
 				bAddTeam.setEnabled(true);
 				bLiga.setEnabled(true);
 			}
@@ -251,7 +253,7 @@ public class MainGUI {
 			@Override
 			public void valueChanged(ListSelectionEvent event) {
 				updatePlayers();
-				bAddPlayer.setEnabled(true);
+				bAddPlayer.setEnabled(true);													//Team Table Listener
 			}
 		});
 
@@ -269,6 +271,7 @@ public class MainGUI {
 	}
 
 	public void updateTeams() {
+		if (!tableGames.getSelectionModel().isSelectionEmpty()) {
 		int gameID = (Integer) tableGames.getValueAt(tableGames.getSelectedRow(), 0);
 		Spiel activeGame = controller.findActiveGame(gameID);
 		List<Team> allTeams = activeGame.getTeamList();
@@ -281,9 +284,11 @@ public class MainGUI {
 					allTeams.getContent().getPlayerInfo() });
 			allTeams.next();
 		}
+		}
 	}
 
 	public void updatePlayers() {
+		if (!tableTeams.getSelectionModel().isSelectionEmpty()) {
 		int teamID = (Integer) tableTeams.getValueAt(tableTeams.getSelectedRow(), 0);
 		int gameID = (Integer) tableGames.getValueAt(tableGames.getSelectedRow(), 0);
 		Spiel activeGame = controller.findActiveGame(gameID);
@@ -298,5 +303,18 @@ public class MainGUI {
 					allPlayers.getContent().getBirthYear() });
 			allPlayers.next();
 		}
+		}
+	}
+
+	public JTable getGameTable() {
+		return tableGames;
+	}
+
+	public JTable getTeamTable() {
+		return tableTeams;
+	}
+
+	public JTable getPlayerTable() {
+		return tablePlayers;
 	}
 }

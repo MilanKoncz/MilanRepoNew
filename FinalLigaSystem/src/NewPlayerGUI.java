@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -15,8 +16,6 @@ public class NewPlayerGUI {
 	private JTextField tfName;
 	private JTextField tfJahr;
 	private Controller controller;
-	private JTextField tfGameID;
-	private JTextField tfTeamID;
 	private MainGUI mainGUI;
 
 	/**
@@ -46,7 +45,7 @@ public class NewPlayerGUI {
 		frmNeuerSpieler.setResizable(false);
 		frmNeuerSpieler.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmNeuerSpieler.setTitle("Neuer Spieler");
-		frmNeuerSpieler.setBounds(100, 100, 450, 230);
+		frmNeuerSpieler.setBounds(100, 100, 414, 160);
 		frmNeuerSpieler.getContentPane().setLayout(null);
 		frmNeuerSpieler.setVisible(true);
 		
@@ -74,8 +73,10 @@ public class NewPlayerGUI {
 				
 				String name = tfName.getText();
 				int jahr = Integer.parseInt(tfJahr.getText());
-				int gameID = Integer.parseInt(tfGameID.getText());
-				int teamID = Integer.parseInt(tfTeamID.getText());
+				JTable tableGames = mainGUI.getGameTable();
+				JTable tableTeams = mainGUI.getTeamTable();
+				int gameID = (Integer) tableGames.getValueAt(tableGames.getSelectedRow(), 0);
+				int teamID = (Integer) tableTeams.getValueAt(tableTeams.getSelectedRow(), 0);
 				
 				controller.addPlayer(name, jahr, gameID, teamID);
 				mainGUI.updatePlayers();
@@ -83,25 +84,7 @@ public class NewPlayerGUI {
 				
 			}
 		});
-		bSubmit.setBounds(155, 137, 89, 23);
+		bSubmit.setBounds(155, 89, 89, 23);
 		frmNeuerSpieler.getContentPane().add(bSubmit);
-		
-		tfGameID = new JTextField();
-		tfGameID.setColumns(10);
-		tfGameID.setBounds(176, 70, 222, 20);
-		frmNeuerSpieler.getContentPane().add(tfGameID);
-		
-		tfTeamID = new JTextField();
-		tfTeamID.setColumns(10);
-		tfTeamID.setBounds(176, 103, 222, 20);
-		frmNeuerSpieler.getContentPane().add(tfTeamID);
-		
-		JLabel lblSpielId = new JLabel("Spiel ID");
-		lblSpielId.setBounds(10, 73, 113, 14);
-		frmNeuerSpieler.getContentPane().add(lblSpielId);
-		
-		JLabel lblTeamId = new JLabel("Team ID");
-		lblTeamId.setBounds(10, 109, 113, 14);
-		frmNeuerSpieler.getContentPane().add(lblTeamId);
 	}
 }

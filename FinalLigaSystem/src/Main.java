@@ -3,7 +3,7 @@ public class Main {
 
 	public static void main(String args[]) {
 		
-		Verwaltung vw = new Verwaltung();
+		VerwaltungsInterface vw = new Verwaltung();
 		Controller controller = new Controller(vw);
 		
 		controller.startMainGUI();
