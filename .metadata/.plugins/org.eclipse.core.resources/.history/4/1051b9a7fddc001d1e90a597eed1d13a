@@ -187,12 +187,4 @@ public class Verwaltung {
 		return alleTeams;
 	}
 
-	public String[] gameNameArray() {
-		
-	}
-	
-	public void addWin(int pGameID, int pTeamID) {
-		Team activeTeam = findActiveTeam(findActiveGame(pGameID), pTeamID);
-		activeTeam.addWin();
-	}
 }

@@ -33,6 +33,4 @@ public interface ControlInterface {
 	public Spiel findActiveGame(int pGameID);
 	
 	public Team findActiveTeam(Spiel pGame, int pTeamID);
-	
-	public void addWin(int pGameID, int pTeamID);
 }

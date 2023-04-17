@@ -112,7 +112,7 @@ public class MatchmakingGUI {
 			public void actionPerformed(ActionEvent e) {
 				
 				int teamID = (Integer) table0.getValueAt(table0.getSelectedRow(), 1);
-				controller.addWin(1, teamID);
+				
 			}
 		});
 		bWinner0.setBounds(106, 597, 105, 23);
@@ -127,16 +127,5 @@ public class MatchmakingGUI {
 		});
 		bWinner1.setBounds(596, 597, 105, 23);
 		matchmaking.getContentPane().add(bWinner1);
-		
-		JButton bShuffle = new JButton("Create Matchmaking Order");
-		bShuffle.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-			}
-		});
-		bShuffle.setEnabled(false);
-		bShuffle.setBounds(304, 597, 173, 23);
-		matchmaking.getContentPane().add(bShuffle);
 	}
 }

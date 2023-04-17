@@ -78,7 +78,7 @@ public class MatchmakingGUI {
 		matchmaking.getContentPane().add(cbGameSelect);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(44, 94, 220, 492);
+		scrollPane.setBounds(44, 94, 220, 592);
 		matchmaking.getContentPane().add(scrollPane);
 
 		table0 = new JTable() {
@@ -93,7 +93,7 @@ public class MatchmakingGUI {
 		scrollPane.setViewportView(table0);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(531, 94, 220, 492);
+		scrollPane_1.setBounds(531, 94, 220, 592);
 		matchmaking.getContentPane().add(scrollPane_1);
 
 		table1 = new JTable() {
@@ -106,37 +106,5 @@ public class MatchmakingGUI {
 		table1.getTableHeader().setResizingAllowed(false);
 		table1.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Game No.", "Team ID", "Teamname" }));
 		scrollPane_1.setViewportView(table1);
-
-		JButton bWinner0 = new JButton("Declare Winner");
-		bWinner0.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				int teamID = (Integer) table0.getValueAt(table0.getSelectedRow(), 1);
-				controller.addWin(1, teamID);
-			}
-		});
-		bWinner0.setBounds(106, 597, 105, 23);
-		matchmaking.getContentPane().add(bWinner0);
-
-		JButton bWinner1 = new JButton("Declare Winner");
-		bWinner1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				int teamID = (Integer) table1.getValueAt(table1.getSelectedRow(), 1);
-			}
-		});
-		bWinner1.setBounds(596, 597, 105, 23);
-		matchmaking.getContentPane().add(bWinner1);
-		
-		JButton bShuffle = new JButton("Create Matchmaking Order");
-		bShuffle.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-			}
-		});
-		bShuffle.setEnabled(false);
-		bShuffle.setBounds(304, 597, 173, 23);
-		matchmaking.getContentPane().add(bShuffle);
 	}
 }
