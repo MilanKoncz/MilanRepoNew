@@ -38,7 +38,7 @@ public class Controller implements ControlInterface {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					newGameGUI = new NewGameGUI(controller);
+					newGameGUI = new NewGameGUI(controller, mainGUI);
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,7 +51,7 @@ public class Controller implements ControlInterface {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					newTeamGUI = new NewTeamGUI(controller);
+					newTeamGUI = new NewTeamGUI(controller, mainGUI);
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,7 +64,7 @@ public class Controller implements ControlInterface {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					newPlayerGUI = new NewPlayerGUI(controller);
+					newPlayerGUI = new NewPlayerGUI(controller, mainGUI);
 
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -1,0 +1,22 @@
+
+public class Main {
+
+	public static void main(String args[]) {
+		
+		Verwaltung vw = new Verwaltung();
+		Controller controller = new Controller(vw);
+		
+		controller.startMainGUI();
+		
+		/*
+		 * ToDo-List
+		 * -ListShuffle
+		 * -Remove Players/teams/etc
+		 * -Persistent saving
+		 * -Comboboxes
+		 * -Hässlichkeiten (Navigieren usw)
+		 * -ExeFile
+		 */
+	}
+	
+}

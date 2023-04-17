@@ -14,6 +14,7 @@ public class NewGameGUI {
 	JFrame frmNeuesTurnierErstellen;
 	private JTextField tfTyp;
 	private Controller controller;
+	private MainGUI mainGUI;
 
 	/**
 	 * Launch the application.
@@ -27,9 +28,10 @@ public class NewGameGUI {
 	 * @throws InstantiationException 
 	 * @throws ClassNotFoundException 
 	 */
-	public NewGameGUI(Controller pController) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+	public NewGameGUI(Controller pController, MainGUI pMainGUI) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		controller = pController;
+		mainGUI = pMainGUI;
 		initialize();
 	}
 
@@ -60,6 +62,7 @@ public class NewGameGUI {
 				
 				String typ = tfTyp.getText();
 				controller.addGame(typ);
+				mainGUI.updateGames();
 				frmNeuesTurnierErstellen.dispose();
 			}
 		});

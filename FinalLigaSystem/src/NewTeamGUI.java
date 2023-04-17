@@ -15,6 +15,7 @@ public class NewTeamGUI {
 	private JTextField tfName;
 	private Controller controller;
 	private JTextField tfID;
+	private MainGUI mainGUI;
 
 	/**
 	 * Launch the application.
@@ -28,9 +29,10 @@ public class NewTeamGUI {
 	 * @throws InstantiationException 
 	 * @throws ClassNotFoundException 
 	 */
-	public NewTeamGUI(Controller pController) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+	public NewTeamGUI(Controller pController, MainGUI pMainGUI) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		controller = pController;
+		mainGUI = pMainGUI;
 		initialize();
 	}
 
@@ -62,6 +64,7 @@ public class NewTeamGUI {
 				int id = Integer.parseInt(tfID.getText());
 				String name = tfName.getText();
 				controller.addTeam(name, id);
+				mainGUI.updateTeams();
 				frmNeuesTeam.dispose();
 			}
 		});
