@@ -1,0 +1,142 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
+
+public class MatchmakingGUI {
+
+	JFrame matchmaking;
+	private Controller controller;
+	private JTable table0;
+	private JTable table1;
+
+	/**
+	 * Launch the application.
+	 */
+
+	/**
+	 * Create the application.
+	 * 
+	 * @throws UnsupportedLookAndFeelException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws ClassNotFoundException
+	 */
+	public MatchmakingGUI(Controller pController) throws ClassNotFoundException, InstantiationException,
+			IllegalAccessException, UnsupportedLookAndFeelException {
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		controller = pController;
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		matchmaking = new JFrame();
+		matchmaking.setResizable(false);
+		matchmaking.setTitle("Matchmaking");
+		matchmaking.setBounds(100, 100, 805, 783);
+		matchmaking.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		matchmaking.getContentPane().setLayout(null);
+		matchmaking.setVisible(true);
+
+		JButton bExit = new JButton("Exit");
+		bExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				matchmaking.dispose();
+			}
+		});
+		bExit.setBounds(314, 671, 144, 46);
+		matchmaking.getContentPane().add(bExit);
+
+		JLabel lblNewLabel = new JLabel("VS.");
+		lblNewLabel.setFont(new Font("Year supply of fairy cakes", Font.BOLD, 72));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(304, 211, 173, 176);
+		matchmaking.getContentPane().add(lblNewLabel);
+
+		JLabel lblNewLabel_1 = new JLabel("Select Game:");
+		lblNewLabel_1.setBounds(314, 11, 125, 14);
+		matchmaking.getContentPane().add(lblNewLabel_1);
+
+		JComboBox cbGameSelect = new JComboBox();
+		cbGameSelect.setBounds(314, 35, 125, 22);
+		matchmaking.getContentPane().add(cbGameSelect);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(44, 94, 220, 492);
+		matchmaking.getContentPane().add(scrollPane);
+
+		table0 = new JTable() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		table0.getTableHeader().setReorderingAllowed(false);
+		table0.getTableHeader().setResizingAllowed(false);
+		table0.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Game No.", "Team ID", "Teamname" }));
+		scrollPane.setViewportView(table0);
+
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(531, 94, 220, 492);
+		matchmaking.getContentPane().add(scrollPane_1);
+
+		table1 = new JTable() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		table1.getTableHeader().setReorderingAllowed(false);
+		table1.getTableHeader().setResizingAllowed(false);
+		table1.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Game No.", "Team ID", "Teamname" }));
+		scrollPane_1.setViewportView(table1);
+
+		JButton bWinner0 = new JButton("Declare Winner");
+		bWinner0.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int teamID = (Integer) table0.getValueAt(table0.getSelectedRow(), 1);
+				controller.addWin(1, teamID);
+			}
+		});
+		bWinner0.setBounds(106, 597, 105, 23);
+		matchmaking.getContentPane().add(bWinner0);
+
+		JButton bWinner1 = new JButton("Declare Winner");
+		bWinner1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int teamID = (Integer) table1.getValueAt(table1.getSelectedRow(), 1);
+			}
+		});
+		bWinner1.setBounds(596, 597, 105, 23);
+		matchmaking.getContentPane().add(bWinner1);
+		
+		JButton bShuffle = new JButton("Create Matchmaking Order");
+		bShuffle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		bShuffle.setEnabled(false);
+		bShuffle.setBounds(304, 597, 173, 23);
+		matchmaking.getContentPane().add(bShuffle);
+	}
+}

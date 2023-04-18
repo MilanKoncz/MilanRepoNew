@@ -237,14 +237,34 @@ public class MainGUI {
 		});
 		bMatchmaking.setBounds(480, 344, 203, 71);
 		frmLigasystemV.getContentPane().add(bMatchmaking);
+		
+		JButton bClear = new JButton("Clear All Data");
+		bClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.clearData();
+				updateGames();
+				updateTeams();
+				updatePlayers();
+				DefaultTableModel model = (DefaultTableModel) tableTeams.getModel();
+				model.setRowCount(0);
+				bAddTeam.setEnabled(false);
+				bLiga.setEnabled(false);
+				bAddPlayer.setEnabled(false);
+			}
+		});
+		bClear.setBounds(10, 410, 128, 23);
+		frmLigasystemV.getContentPane().add(bClear);
 
 		ListSelectionModel listSelectionModel0 = (ListSelectionModel) tableGames.getSelectionModel();
 		listSelectionModel0.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent event) {
-				updateTeams();																	//Game Table Listener
+				updateTeams();
+				DefaultTableModel model = (DefaultTableModel) tablePlayers.getModel();
+				model.setRowCount(0);														// Game Table Listener
 				bAddTeam.setEnabled(true);
 				bLiga.setEnabled(true);
+				bAddPlayer.setEnabled(false);
 			}
 		});
 
@@ -253,7 +273,7 @@ public class MainGUI {
 			@Override
 			public void valueChanged(ListSelectionEvent event) {
 				updatePlayers();
-				bAddPlayer.setEnabled(true);													//Team Table Listener
+				bAddPlayer.setEnabled(true);												 // Team Table Listener
 			}
 		});
 
@@ -272,37 +292,37 @@ public class MainGUI {
 
 	public void updateTeams() {
 		if (!tableGames.getSelectionModel().isSelectionEmpty()) {
-		int gameID = (Integer) tableGames.getValueAt(tableGames.getSelectedRow(), 0);
-		Spiel activeGame = controller.findActiveGame(gameID);
-		List<Team> allTeams = activeGame.getTeamList();
+			int gameID = (Integer) tableGames.getValueAt(tableGames.getSelectedRow(), 0);
+			Spiel activeGame = controller.findActiveGame(gameID);
+			List<Team> allTeams = activeGame.getTeamList();
 
-		allTeams.toFirst();
-		DefaultTableModel model = (DefaultTableModel) tableTeams.getModel();
-		model.setRowCount(0);
-		while (allTeams.hasAccess()) {
-			model.addRow(new Object[] { allTeams.getContent().getID(), allTeams.getContent().getTeamname(),
-					allTeams.getContent().getPlayerInfo() });
-			allTeams.next();
-		}
+			allTeams.toFirst();
+			DefaultTableModel model = (DefaultTableModel) tableTeams.getModel();
+			model.setRowCount(0);
+			while (allTeams.hasAccess()) {
+				model.addRow(new Object[] { allTeams.getContent().getID(), allTeams.getContent().getTeamname(),
+						allTeams.getContent().getPlayerInfo() });
+				allTeams.next();
+			}
 		}
 	}
 
 	public void updatePlayers() {
-		if (!tableTeams.getSelectionModel().isSelectionEmpty()) {
-		int teamID = (Integer) tableTeams.getValueAt(tableTeams.getSelectedRow(), 0);
-		int gameID = (Integer) tableGames.getValueAt(tableGames.getSelectedRow(), 0);
-		Spiel activeGame = controller.findActiveGame(gameID);
-		Team activeTeam = controller.findActiveTeam(activeGame, teamID);
-		List<Spieler> allPlayers = activeTeam.getPlayerList();
+		if (!tableTeams.getSelectionModel().isSelectionEmpty() && !tableGames.getSelectionModel().isSelectionEmpty()) {
+			int teamID = (Integer) tableTeams.getValueAt(tableTeams.getSelectedRow(), 0);
+			int gameID = (Integer) tableGames.getValueAt(tableGames.getSelectedRow(), 0);
+			Spiel activeGame = controller.findActiveGame(gameID);
+			Team activeTeam = controller.findActiveTeam(activeGame, teamID);
+			List<Spieler> allPlayers = activeTeam.getPlayerList();
 
-		allPlayers.toFirst();
-		DefaultTableModel model = (DefaultTableModel) tablePlayers.getModel();
-		model.setRowCount(0);
-		while (allPlayers.hasAccess()) {
-			model.addRow(new Object[] { allPlayers.getContent().getID(), allPlayers.getContent().getName(),
-					allPlayers.getContent().getBirthYear() });
-			allPlayers.next();
-		}
+			allPlayers.toFirst();
+			DefaultTableModel model = (DefaultTableModel) tablePlayers.getModel();
+			model.setRowCount(0);
+			while (allPlayers.hasAccess()) {
+				model.addRow(new Object[] { allPlayers.getContent().getID(), allPlayers.getContent().getName(),
+						allPlayers.getContent().getBirthYear() });
+				allPlayers.next();
+			}
 		}
 	}
 

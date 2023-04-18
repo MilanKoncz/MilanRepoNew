@@ -1,8 +1,8 @@
 import java.awt.EventQueue;
 
-public class Controller implements ControlInterface {
+public class Controller{
 
-	private VerwaltungsInterface vw;
+	private Verwaltung vw;
 	@SuppressWarnings("unused")
 	private MainGUI mainGUI;
 	@SuppressWarnings("unused")
@@ -17,7 +17,7 @@ public class Controller implements ControlInterface {
 	private SearchTeamGUI getTeamGUI;
 	private Controller controller = this;
 
-	public Controller(VerwaltungsInterface pVW) {
+	public Controller(Verwaltung pVW) {
 		vw = pVW;
 	}
 
@@ -141,5 +141,9 @@ public class Controller implements ControlInterface {
 
 	public void addWin(int pGameID, int pTeamID) {
 		vw.addWin(pGameID, pTeamID);
+	}
+	
+	public void clearData() {
+		vw.clearData();
 	}
 }

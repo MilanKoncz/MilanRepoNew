@@ -1,7 +1,8 @@
-public class Verwaltung implements VerwaltungsInterface {
+public class Verwaltung{
 
 	private List<Spiel> alleSpiele = new List<Spiel>();
 	private int idCounter = 0;
+	private int matchIDCounter = 0;
 
 	public void testData() {
 		Spiel s0 = new Spiel("CSGO", 1);
@@ -61,70 +62,69 @@ public class Verwaltung implements VerwaltungsInterface {
 		return activeTeam;
 	}
 
-	public List<Spiel> createGameListCopy(List<Spiel> pList){
+	public List<Spiel> createGameListCopy(List<Spiel> pList) {
 		List<Spiel> sortiert = new List<Spiel>();
 		pList.toFirst();
-		while(pList.hasAccess()) {
+		while (pList.hasAccess()) {
 			sortiert.append(pList.getContent());
 			pList.next();
 		}
 		return sortiert;
 	}
-	
-	public List<Team> createTeamListCopy(List<Team> pList){
+
+	public List<Team> createTeamListCopy(List<Team> pList) {
 		List<Team> sortiert = new List<Team>();
 		pList.toFirst();
-		while(pList.hasAccess()) {
+		while (pList.hasAccess()) {
 			sortiert.append(pList.getContent());
 			pList.next();
 		}
 		return sortiert;
 	}
-	
-	public String[][] listShuffle(List<Team> pList){
-		
+
+	public String[][] listShuffle(List<Team> pList) {
+
 		int teamAmount = 0;
-		
+
 		pList.toFirst();
-		while(pList.hasAccess()) {
+		while (pList.hasAccess()) {
 			teamAmount++;
 			pList.next();
 		}
-		
+
 		int rounds = teamAmount / 2;
 		String[][] schedule = new String[teamAmount - 1][rounds];
-		
+
 		return schedule;
 	}
-	
+
 	public List<Team> ligaStand(int pSpielID) {
-	    Team tmp;
-	    List<Team> sortiert = new List<Team>();
-	    Spiel activeGame = findActiveGame(pSpielID);
+		Team tmp;
+		List<Team> sortiert = new List<Team>();
+		Spiel activeGame = findActiveGame(pSpielID);
 
-	    if (activeGame != null) {
-	        List<Team> unsortiert = createTeamListCopy(activeGame.getTeamList());
-	        while (!unsortiert.isEmpty()) {
-	            unsortiert.toFirst();
-	            tmp = unsortiert.getContent();
-	            while (unsortiert.hasAccess()) {
-	                if (unsortiert.getContent().getWins() > tmp.getWins()) {
-	                    tmp = unsortiert.getContent();
-	                }
-	                unsortiert.next();
-	            }
-	            sortiert.append(tmp);
-	            unsortiert.toFirst();
-	            while (tmp.getID() != unsortiert.getContent().getID()) {
-	                unsortiert.next();
-	            }
-	            unsortiert.remove();
-	        }
-	        return sortiert;
-	    }
-	    return null;
+		if (activeGame != null) {
+			List<Team> unsortiert = createTeamListCopy(activeGame.getTeamList());
+			while (!unsortiert.isEmpty()) {
+				unsortiert.toFirst();
+				tmp = unsortiert.getContent();
+				while (unsortiert.hasAccess()) {
+					if (unsortiert.getContent().getWins() > tmp.getWins()) {
+						tmp = unsortiert.getContent();
+					}
+					unsortiert.next();
+				}
+				sortiert.append(tmp);
+				unsortiert.toFirst();
+				while (tmp.getID() != unsortiert.getContent().getID()) {
+					unsortiert.next();
+				}
+				unsortiert.remove();
+			}
+			return sortiert;
+		}
+		return null;
 	}
-
 
 	public List<Spiel> getSpieleListe() {
 		return alleSpiele;
@@ -187,10 +187,13 @@ public class Verwaltung implements VerwaltungsInterface {
 		return alleTeams;
 	}
 
-	
-	
 	public void addWin(int pGameID, int pTeamID) {
 		Team activeTeam = findActiveTeam(findActiveGame(pGameID), pTeamID);
 		activeTeam.addWin();
+	}
+
+	public void clearData() {
+		alleSpiele = new List<Spiel>();
+		
 	}
 }
