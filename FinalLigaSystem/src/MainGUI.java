@@ -253,6 +253,8 @@ public class MainGUI {
 				updatePlayers();
 				DefaultTableModel model = (DefaultTableModel) tableTeams.getModel();
 				model.setRowCount(0);
+				DefaultTableModel model2 = (DefaultTableModel) tableLiga.getModel();
+				model2.setRowCount(0);
 				bAddTeam.setEnabled(false);
 				bLiga.setEnabled(false);
 				bAddPlayer.setEnabled(false);

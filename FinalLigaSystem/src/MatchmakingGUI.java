@@ -82,10 +82,16 @@ public class MatchmakingGUI {
 		List<Spiel> games = controller.allGames();
 		games.toFirst();
 		while(games.hasAccess()) {
-			comboBox.addItem(new ComboItem(games.getContent().getType(), games.getContent().getType()));
+			comboBox.addItem(new ComboItem(games.getContent().getType(), games.getContent()));
 			games.next();
 		}
 
+		comboBox.addActionListener (new ActionListener () {
+		    public void actionPerformed(ActionEvent e) {
+		        
+		    }
+		});
+		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(265, 262, 259, 311);
 		matchmaking.getContentPane().add(scrollPane);
@@ -168,4 +174,16 @@ public class MatchmakingGUI {
 		lTeam2.setBounds(596, 109, 105, 27);
 		matchmaking.getContentPane().add(lTeam2);
 	}
+	
+	public void updateTable() {
+		DefaultTableModel model = (DefaultTableModel) tableUpcoming.getModel();
+		model.setRowCount(0);
+		List<Spiel> games = controller.allGames();
+		games.toFirst();
+		while (games.hasAccess()) {
+			model.addRow(new Object[] {  });
+			games.next();
+		}
+	}
+	
 }

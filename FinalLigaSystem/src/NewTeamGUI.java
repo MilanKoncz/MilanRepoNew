@@ -70,7 +70,7 @@ public class NewTeamGUI {
 				frmNeuesTeam.dispose();
 			}
 		});
-		bSubmit.setBounds(141, 87, 89, 23);
+		bSubmit.setBounds(167, 85, 89, 23);
 		frmNeuesTeam.getContentPane().add(bSubmit);
 	}
 }

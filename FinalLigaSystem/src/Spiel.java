@@ -5,6 +5,7 @@ public class Spiel {
 	private int id;
 	private int idCounter = 1;
 	private boolean matchOrder = false;
+	
 	private List<Team> alleTeams = new List<Team>();
 	
 	public Spiel(String pTyp, int pID) {

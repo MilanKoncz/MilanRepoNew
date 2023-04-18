@@ -1,9 +1,9 @@
 class ComboItem
 {
     private String key;
-    private String value;
+    private Spiel value;
 
-    public ComboItem(String key, String value)
+    public ComboItem(String key, Spiel value)
     {
         this.key = key;
         this.value = value;
@@ -20,7 +20,7 @@ class ComboItem
         return key;
     }
 
-    public String getValue()
+    public Spiel getValue()
     {
         return value;
     }
