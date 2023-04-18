@@ -30,6 +30,9 @@ public class MainGUI {
 	private JButton bLiga;
 	private JButton bAddTeam;
 	private JButton bAddPlayer;
+	private JButton bDelPlayer;
+	private JButton bDelTeam;
+	private JButton bDelGame;
 
 	/**
 	 * Launch the application.
@@ -59,7 +62,7 @@ public class MainGUI {
 		frmLigasystemV = new JFrame();
 		frmLigasystemV.setTitle("LigaSystem V3");
 		frmLigasystemV.setResizable(false);
-		frmLigasystemV.setBounds(100, 100, 1159, 483);
+		frmLigasystemV.setBounds(100, 100, 1159, 509);
 		frmLigasystemV.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmLigasystemV.getContentPane().setLayout(null);
 		frmLigasystemV.setVisible(true);
@@ -79,7 +82,7 @@ public class MainGUI {
 
 			}
 		});
-		bTest.setBounds(1005, 410, 128, 23);
+		bTest.setBounds(1005, 438, 128, 23);
 		frmLigasystemV.getContentPane().add(bTest);
 
 		bAddPlayer = new JButton("Spieler hinzufuegen");
@@ -127,13 +130,7 @@ public class MainGUI {
 		tableLiga.getTableHeader().setReorderingAllowed(false);
 		tableLiga.getTableHeader().setResizingAllowed(false);
 		scrollPane.setViewportView(tableLiga);
-		tableLiga.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Liga-Rank", "Team ID", "Wins"
-			}
-		));
+		tableLiga.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Liga-Rank", "Team ID", "Wins" }));
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(596, 52, 266, 212);
@@ -196,17 +193,17 @@ public class MainGUI {
 				DefaultTableModel model = (DefaultTableModel) tableLiga.getModel();
 				model.setRowCount(0);
 				while (sorted.hasAccess()) {
-					model.addRow(new Object[] { rank, sorted.getContent().getID(), sorted.getContent().getWins()});
+					model.addRow(new Object[] { rank, sorted.getContent().getID(), sorted.getContent().getWins() });
 					rank++;
 					sorted.next();
 				}
-				bLiga.setEnabled(false);
 			}
 		});
 		bLiga.setBounds(10, 282, 288, 23);
 		frmLigasystemV.getContentPane().add(bLiga);
 
 		JButton bMasterPlayers = new JButton("Alle Spieler ausgeben");
+		bMasterPlayers.setEnabled(false);
 		bMasterPlayers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -226,11 +223,11 @@ public class MainGUI {
 		frmLigasystemV.getContentPane().add(bMasterPlayers);
 
 		JButton bSave = new JButton("Save Config");
-		bSave.setBounds(1005, 376, 128, 23);
+		bSave.setBounds(1005, 404, 128, 23);
 		frmLigasystemV.getContentPane().add(bSave);
 
 		JButton bLoad = new JButton("Load Config");
-		bLoad.setBounds(1005, 344, 128, 23);
+		bLoad.setBounds(1005, 372, 128, 23);
 		frmLigasystemV.getContentPane().add(bLoad);
 
 		JButton bMatchmaking = new JButton("Start Matchmaking");
@@ -241,9 +238,9 @@ public class MainGUI {
 				controller.startMatchmakingGUI();
 			}
 		});
-		bMatchmaking.setBounds(480, 344, 203, 71);
+		bMatchmaking.setBounds(480, 372, 203, 71);
 		frmLigasystemV.getContentPane().add(bMatchmaking);
-		
+
 		JButton bClear = new JButton("Clear All Data");
 		bClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -259,10 +256,70 @@ public class MainGUI {
 				bLiga.setEnabled(false);
 				bAddPlayer.setEnabled(false);
 				bTest.setEnabled(true);
+				bDelGame.setEnabled(false);
+				bDelTeam.setEnabled(false);
+				bDelPlayer.setEnabled(false);
 			}
 		});
-		bClear.setBounds(10, 410, 128, 23);
+		bClear.setBounds(10, 438, 128, 23);
 		frmLigasystemV.getContentPane().add(bClear);
+
+		bDelGame = new JButton("Liga loeschen");
+		bDelGame.setEnabled(false);
+		bDelGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int gameID = (Integer) tableGames.getValueAt(tableGames.getSelectedRow(), 0);
+				controller.delGame(gameID);
+				updateGames();
+				updateTeams();
+				updatePlayers();
+				DefaultTableModel model = (DefaultTableModel) tableTeams.getModel();
+				model.setRowCount(0);
+				DefaultTableModel model2 = (DefaultTableModel) tablePlayers.getModel();
+				model2.setRowCount(0);
+				bDelGame.setEnabled(false);
+				bDelTeam.setEnabled(false);
+				bDelPlayer.setEnabled(false);
+				bAddTeam.setEnabled(false);
+			}
+		});
+		bDelGame.setBounds(320, 316, 266, 23);
+		frmLigasystemV.getContentPane().add(bDelGame);
+
+		bDelTeam = new JButton("Team loeschen");
+		bDelTeam.setEnabled(false);
+		bDelTeam.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int gameID = (Integer) tableGames.getValueAt(tableGames.getSelectedRow(), 0);
+				int teamID = (Integer) tableTeams.getValueAt(tableTeams.getSelectedRow(), 0);
+				controller.delTeam(gameID, teamID);
+				updateTeams();
+				updatePlayers();
+				DefaultTableModel model2 = (DefaultTableModel) tablePlayers.getModel();
+				model2.setRowCount(0);
+				bDelTeam.setEnabled(false);
+				bDelPlayer.setEnabled(false);
+				bAddPlayer.setEnabled(false);
+			}
+		});
+		bDelTeam.setBounds(596, 316, 266, 23);
+		frmLigasystemV.getContentPane().add(bDelTeam);
+
+		bDelPlayer = new JButton("Spieler Loeschen");
+		bDelPlayer.setEnabled(false);
+		bDelPlayer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int gameID = (Integer) tableGames.getValueAt(tableGames.getSelectedRow(), 0);
+				int teamID = (Integer) tableTeams.getValueAt(tableTeams.getSelectedRow(), 0);
+				int playerID = (Integer) tablePlayers.getValueAt(tablePlayers.getSelectedRow(), 0);
+				controller.delPlayer(gameID, teamID, playerID);
+				updatePlayers();
+
+				bDelPlayer.setEnabled(false);
+			}
+		});
+		bDelPlayer.setBounds(872, 316, 266, 23);
+		frmLigasystemV.getContentPane().add(bDelPlayer);
 
 		ListSelectionModel listSelectionModel0 = (ListSelectionModel) tableGames.getSelectionModel();
 		listSelectionModel0.addListSelectionListener(new ListSelectionListener() {
@@ -270,10 +327,13 @@ public class MainGUI {
 			public void valueChanged(ListSelectionEvent event) {
 				updateTeams();
 				DefaultTableModel model = (DefaultTableModel) tablePlayers.getModel();
-				model.setRowCount(0);														// Game Table Listener
+				model.setRowCount(0); // Game Table Listener
 				bAddTeam.setEnabled(true);
 				bLiga.setEnabled(true);
 				bAddPlayer.setEnabled(false);
+				bDelGame.setEnabled(true);
+				bDelTeam.setEnabled(false);
+				bDelPlayer.setEnabled(false);
 			}
 		});
 
@@ -282,7 +342,17 @@ public class MainGUI {
 			@Override
 			public void valueChanged(ListSelectionEvent event) {
 				updatePlayers();
-				bAddPlayer.setEnabled(true);												 // Team Table Listener
+				bAddPlayer.setEnabled(true); // Team Table Listener
+				bDelTeam.setEnabled(true);
+				bDelPlayer.setEnabled(false);
+			}
+		});
+
+		ListSelectionModel listSelectionModel2 = (ListSelectionModel) tablePlayers.getSelectionModel();
+		listSelectionModel2.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent event) {
+				bDelPlayer.setEnabled(true); // Player Table Listener
 			}
 		});
 
@@ -345,5 +415,33 @@ public class MainGUI {
 
 	public JTable getPlayerTable() {
 		return tablePlayers;
+	}
+	
+	public JTable getLigaTable() {
+		return tableLiga;
+	}
+
+	public JButton getBAddTeam() {
+		return bAddTeam;
+	}
+
+	public JButton getBAddPlayer() {
+		return bAddPlayer;
+	}
+
+	public JButton getBDelGame() {
+		return bDelGame;
+	}
+
+	public JButton getBDelTeam() {
+		return bDelTeam;
+	}
+
+	public JButton getBDelPlayer() {
+		return bDelPlayer;
+	}
+	
+	public JButton getBLiga() {
+		return bLiga;
 	}
 }

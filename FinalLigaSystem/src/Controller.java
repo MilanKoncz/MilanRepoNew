@@ -146,4 +146,16 @@ public class Controller{
 	public void clearData() {
 		vw.clearData();
 	}
+	
+	public void delGame(int pGameID) {
+		vw.delGame(pGameID);
+	}
+	
+	public void delTeam(int pGameID, int pTeamID) {
+		vw.delTeam(pGameID, pTeamID);
+	}
+	
+	public void delPlayer(int pGameID, int pTeamID, int pPlayerID) {
+		vw.delPlayer(pGameID, pTeamID, pPlayerID);
+	}
 }

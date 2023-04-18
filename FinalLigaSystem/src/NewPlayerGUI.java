@@ -84,6 +84,9 @@ public class NewPlayerGUI {
 
 					controller.addPlayer(name, jahr, gameID, teamID);
 					mainGUI.updatePlayers();
+					//mainGUI.updateTeams();
+					//mainGUI.getBDelTeam().setEnabled(false);
+					//mainGUI.getBAddPlayer().setEnabled(false);
 					frmNeuerSpieler.dispose();
 				} catch (NumberFormatException e1) {
 					lError.setText("Invalid Number!");

@@ -1,0 +1,237 @@
+public class Verwaltung {
+
+	private List<Spiel> alleSpiele = new List<Spiel>();
+	private int idCounter = 0;
+	private int matchIDCounter = 0;
+
+	public void testData() {
+		Spiel s0 = new Spiel("CSGO", 1);
+		s0.addTeam(new Team("Kings", 1));
+		s0.addTeam(new Team("Queens", 2));
+		s0.getTeamList().toFirst();
+		s0.getTeamList().getContent().addMember(new Spieler("Milan", 2006, 1));
+		s0.getTeamList().getContent().addMember(new Spieler("Justus", 2006, 2));
+		s0.getTeamList().next();
+		s0.getTeamList().getContent().addMember(new Spieler("Lisa", 2006, 3));
+		s0.getTeamList().getContent().addMember(new Spieler("Lena", 2006, 4));
+		Spiel s1 = new Spiel("Fortnite", 2);
+		s1.addTeam(new Team("McDonads", 1));
+		s1.addTeam(new Team("BoergerKing", 2));
+		s1.getTeamList().toFirst();
+		s1.getTeamList().getContent().addMember(new Spieler("Robin", 2006, 1));
+		s1.getTeamList().getContent().addMember(new Spieler("Jonas", 2006, 2));
+		s1.getTeamList().next();
+		s1.getTeamList().getContent().addMember(new Spieler("Felix", 2006, 3));
+		s1.getTeamList().getContent().addMember(new Spieler("Richard", 2006, 4));
+		alleSpiele.append(s0);
+		alleSpiele.append(s1);
+	}
+
+	public Spiel findActiveGame(int pGameID) {
+
+		boolean gefunden = false;
+		Spiel activeGame = null;
+
+		alleSpiele.toFirst();
+		while (alleSpiele.hasAccess() && !gefunden) {
+			if (alleSpiele.getContent().getID() == pGameID) {
+				activeGame = alleSpiele.getContent();
+				gefunden = true;
+			} else {
+				alleSpiele.next();
+			}
+		}
+		return activeGame;
+	}
+
+	public Team findActiveTeam(Spiel pGame, int pTeamID) {
+
+		boolean gefunden = false;
+		Team activeTeam = null;
+		List<Team> alleTeams = pGame.getTeamList();
+
+		alleTeams.toFirst();
+		while (alleTeams.hasAccess() && !gefunden) {
+			if (alleTeams.getContent().getID() == pTeamID) {
+				activeTeam = alleTeams.getContent();
+				gefunden = true;
+			} else {
+				alleTeams.next();
+			}
+		}
+		return activeTeam;
+	}
+
+	public List<Spiel> createGameListCopy(List<Spiel> pList) {
+		List<Spiel> sortiert = new List<Spiel>();
+		pList.toFirst();
+		while (pList.hasAccess()) {
+			sortiert.append(pList.getContent());
+			pList.next();
+		}
+		return sortiert;
+	}
+
+	public List<Team> createTeamListCopy(List<Team> pList) {
+		List<Team> sortiert = new List<Team>();
+		pList.toFirst();
+		while (pList.hasAccess()) {
+			sortiert.append(pList.getContent());
+			pList.next();
+		}
+		return sortiert;
+	}
+
+	public String[][] listShuffle(List<Team> pList) {
+
+		int teamAmount = 0;
+
+		pList.toFirst();
+		while (pList.hasAccess()) {
+			teamAmount++;
+			pList.next();
+		}
+
+		int rounds = teamAmount / 2;
+		String[][] schedule = new String[teamAmount - 1][rounds];
+
+		return schedule;
+	}
+
+	public List<Team> ligaStand(int pSpielID) {
+		Team tmp;
+		List<Team> sortiert = new List<Team>();
+		Spiel activeGame = findActiveGame(pSpielID);
+
+		if (activeGame != null) {
+			List<Team> unsortiert = createTeamListCopy(activeGame.getTeamList());
+			while (!unsortiert.isEmpty()) {
+				unsortiert.toFirst();
+				tmp = unsortiert.getContent();
+				while (unsortiert.hasAccess()) {
+					if (unsortiert.getContent().getWins() > tmp.getWins()) {
+						tmp = unsortiert.getContent();
+					}
+					unsortiert.next();
+				}
+				sortiert.append(tmp);
+				unsortiert.toFirst();
+				while (tmp.getID() != unsortiert.getContent().getID()) {
+					unsortiert.next();
+				}
+				unsortiert.remove();
+			}
+			return sortiert;
+		}
+		return null;
+	}
+
+	public List<Spiel> getSpieleListe() {
+		return alleSpiele;
+	}
+
+	public List<Spieler> allPlayers() {
+
+		List<Spieler> allPlayers = new List<Spieler>();
+
+		alleSpiele.toFirst();
+		while (alleSpiele.hasAccess()) {
+			alleSpiele.getContent().getTeamList().toFirst();
+			while (alleSpiele.getContent().getTeamList().hasAccess()) {
+				alleSpiele.getContent().getTeamList().getContent().getPlayerList().toFirst();
+				while (alleSpiele.getContent().getTeamList().getContent().getPlayerList().hasAccess()) {
+					allPlayers.append(alleSpiele.getContent().getTeamList().getContent().getPlayerList().getContent());
+					alleSpiele.getContent().getTeamList().getContent().getPlayerList().next();
+				}
+				alleSpiele.getContent().getTeamList().next();
+			}
+			alleSpiele.next();
+		}
+
+		return allPlayers;
+	}
+
+	public void addGame(String pTyp) {
+		idCounter++;
+		Spiel newGame = new Spiel(pTyp, idCounter);
+		alleSpiele.append(newGame);
+	}
+
+	public void addTeam(String pName, int pGameID) {
+
+		int id;
+		Spiel activeGame = findActiveGame(pGameID);
+
+		if (activeGame != null) {
+			id = activeGame.getidCounter();
+			activeGame.addTeam(new Team(pName, id));
+		}
+	}
+
+	public void addPlayer(String pName, int pJahr, int pGameID, int pTeamID) {
+
+		Spiel activeGame = findActiveGame(pGameID);
+		Team activeTeam = findActiveTeam(activeGame, pTeamID);
+		int playerID = activeTeam.getidCounter();
+
+		activeTeam.addMember(new Spieler(pName, pJahr, playerID));
+
+	}
+
+	public List<Team> listTeams(int pGameID) {
+
+		Spiel activeGame = findActiveGame(pGameID);
+
+		List<Team> alleTeams = activeGame.getTeamList();
+
+		return alleTeams;
+	}
+
+	public void addWin(int pGameID, int pTeamID) {
+		Team activeTeam = findActiveTeam(findActiveGame(pGameID), pTeamID);
+		activeTeam.addWin();
+	}
+
+	public void clearData() {
+		alleSpiele = new List<Spiel>();
+
+	}
+
+	public void delGame(int pGameID) {
+		alleSpiele.toFirst();
+		while (alleSpiele.hasAccess()) {
+			if(alleSpiele.getContent().getID() == pGameID) {
+				alleSpiele.remove();
+			}
+			alleSpiele.next();
+		}
+		
+	}
+
+	public void delTeam(int pGameID, int pTeamID) {
+		Spiel activeGame = findActiveGame(pGameID);
+		List<Team> alleTeams = activeGame.getTeamList();
+		alleTeams.toFirst();
+		while (alleTeams.hasAccess()) {
+			if(alleTeams.getContent().getID() == pTeamID) {
+				alleTeams.remove();
+			}
+			alleTeams.next();
+		}
+		
+	}
+
+	public void delPlayer(int pGameID, int pTeamID, int pPlayerID) {
+		Spiel activeGame = findActiveGame(pGameID);
+		Team activeTeam = findActiveTeam(activeGame, pTeamID);
+		List<Spieler> alleSpieler = activeTeam.getPlayerList();
+		alleSpieler.toFirst();
+		while (alleSpieler.hasAccess()) {
+			if(alleSpieler.getContent().getID() == pPlayerID) {
+				alleSpieler.remove();
+			}
+			alleSpieler.next();
+		}
+		
+	}
+}

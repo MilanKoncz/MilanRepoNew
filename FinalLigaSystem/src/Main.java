@@ -11,11 +11,9 @@ public class Main {
 		/*
 		 * ToDo-List
 		 * -ListShuffle
-		 * -Remove Players/teams/etc
-		 * -Persistent saving
+		 * -Persistent saving (serialize objects in json)
 		 * -Comboboxes
-		 * -Hässlichkeiten (Navigieren usw)
-		 * -ExeFile
+
 		 */
 	}
 	

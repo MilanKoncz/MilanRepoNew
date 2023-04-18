@@ -2,9 +2,11 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -64,6 +66,17 @@ public class NewGameGUI {
 				String typ = tfTyp.getText();
 				controller.addGame(typ);
 				mainGUI.updateGames();
+				JTable tableTeams = mainGUI.getTeamTable();
+				JTable tableLiga = mainGUI.getLigaTable();
+				DefaultTableModel model0 = (DefaultTableModel) tableTeams.getModel();
+				model0.setRowCount(0);
+				DefaultTableModel model1 = (DefaultTableModel) tableLiga.getModel();
+				model1.setRowCount(0);
+				mainGUI.getBAddTeam().setEnabled(false);
+				mainGUI.getBDelGame().setEnabled(false);
+				mainGUI.getBAddPlayer().setEnabled(false);
+				mainGUI.getBDelTeam().setEnabled(false);
+				mainGUI.getBLiga().setEnabled(false);
 				frmNeuesTurnierErstellen.dispose();
 			}
 		});

@@ -6,6 +6,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -67,6 +68,11 @@ public class NewTeamGUI {
 				String name = tfName.getText();
 				controller.addTeam(name, id);
 				mainGUI.updateTeams();
+				mainGUI.getBAddPlayer().setEnabled(false);
+				mainGUI.getBDelPlayer().setEnabled(false);
+				JTable tablePlayer = mainGUI.getPlayerTable();
+				DefaultTableModel model = (DefaultTableModel) tablePlayer.getModel();
+				model.setRowCount(0);
 				frmNeuesTeam.dispose();
 			}
 		});

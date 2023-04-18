@@ -1,4 +1,4 @@
-public class Verwaltung{
+public class Verwaltung {
 
 	private List<Spiel> alleSpiele = new List<Spiel>();
 	private int idCounter = 0;
@@ -194,6 +194,50 @@ public class Verwaltung{
 
 	public void clearData() {
 		alleSpiele = new List<Spiel>();
+
+	}
+
+	public void delGame(int pGameID) {
+		alleSpiele.toFirst();
+		while (alleSpiele.hasAccess()) {
+			if(alleSpiele.getContent().getID() == pGameID) {
+				alleSpiele.remove();
+			}else {
+				alleSpiele.next();
+			}
+			
+		}
+		
+	}
+
+	public void delTeam(int pGameID, int pTeamID) {
+		Spiel activeGame = findActiveGame(pGameID);
+		List<Team> alleTeams = activeGame.getTeamList();
+		alleTeams.toFirst();
+		while (alleTeams.hasAccess()) {
+			if(alleTeams.getContent().getID() == pTeamID) {
+				alleTeams.remove();
+			}else {
+				alleTeams.next();
+			}
+			
+		}
+		
+	}
+
+	public void delPlayer(int pGameID, int pTeamID, int pPlayerID) {
+		Spiel activeGame = findActiveGame(pGameID);
+		Team activeTeam = findActiveTeam(activeGame, pTeamID);
+		List<Spieler> alleSpieler = activeTeam.getPlayerList();
+		alleSpieler.toFirst();
+		while (alleSpieler.hasAccess()) {
+			if(alleSpieler.getContent().getID() == pPlayerID) {
+				alleSpieler.remove();
+			}else {
+				alleSpieler.next();
+			}
+			
+		}
 		
 	}
 }
