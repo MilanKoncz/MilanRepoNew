@@ -127,13 +127,7 @@ public class MainGUI {
 		tableLiga.getTableHeader().setReorderingAllowed(false);
 		tableLiga.getTableHeader().setResizingAllowed(false);
 		scrollPane.setViewportView(tableLiga);
-		tableLiga.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Liga-Rank", "Team ID", "Wins"
-			}
-		));
+		tableLiga.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Team ID", "Wins", "Liga-Rank" }));
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(596, 52, 266, 212);
@@ -196,7 +190,7 @@ public class MainGUI {
 				DefaultTableModel model = (DefaultTableModel) tableLiga.getModel();
 				model.setRowCount(0);
 				while (sorted.hasAccess()) {
-					model.addRow(new Object[] { rank, sorted.getContent().getID(), sorted.getContent().getWins()});
+					model.addRow(new Object[] { sorted.getContent().getID(), sorted.getContent().getWins(), rank });
 					rank++;
 					sorted.next();
 				}
@@ -256,7 +250,6 @@ public class MainGUI {
 				bAddTeam.setEnabled(false);
 				bLiga.setEnabled(false);
 				bAddPlayer.setEnabled(false);
-				bTest.setEnabled(true);
 			}
 		});
 		bClear.setBounds(10, 410, 128, 23);

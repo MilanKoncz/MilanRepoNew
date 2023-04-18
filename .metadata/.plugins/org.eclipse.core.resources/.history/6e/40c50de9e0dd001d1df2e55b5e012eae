@@ -75,16 +75,9 @@ public class MatchmakingGUI {
 		lblNewLabel_1.setBounds(314, 11, 125, 14);
 		matchmaking.getContentPane().add(lblNewLabel_1);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(314, 35, 125, 22);
-		matchmaking.getContentPane().add(comboBox);
-		
-		List<Spiel> games = controller.allGames();
-		games.toFirst();
-		while(games.hasAccess()) {
-			comboBox.addItem(new ComboItem(games.getContent().getType(), games.getContent().getType()));
-			games.next();
-		}
+		JComboBox cbGameSelect = new JComboBox();
+		cbGameSelect.setBounds(314, 35, 125, 22);
+		matchmaking.getContentPane().add(cbGameSelect);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(265, 262, 259, 311);

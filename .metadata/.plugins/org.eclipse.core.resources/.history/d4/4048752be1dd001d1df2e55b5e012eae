@@ -82,8 +82,7 @@ public class MatchmakingGUI {
 		List<Spiel> games = controller.allGames();
 		games.toFirst();
 		while(games.hasAccess()) {
-			comboBox.addItem(new ComboItem(games.getContent().getType(), games.getContent().getType()));
-			games.next();
+			com
 		}
 
 		JScrollPane scrollPane = new JScrollPane();

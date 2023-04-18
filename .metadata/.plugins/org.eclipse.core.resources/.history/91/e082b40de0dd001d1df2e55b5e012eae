@@ -256,7 +256,6 @@ public class MainGUI {
 				bAddTeam.setEnabled(false);
 				bLiga.setEnabled(false);
 				bAddPlayer.setEnabled(false);
-				bTest.setEnabled(true);
 			}
 		});
 		bClear.setBounds(10, 410, 128, 23);

@@ -45,7 +45,6 @@ public class MatchmakingGUI {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	@SuppressWarnings("unchecked")
 	private void initialize() {
 		matchmaking = new JFrame();
 		matchmaking.setResizable(false);
@@ -75,16 +74,9 @@ public class MatchmakingGUI {
 		lblNewLabel_1.setBounds(314, 11, 125, 14);
 		matchmaking.getContentPane().add(lblNewLabel_1);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(314, 35, 125, 22);
-		matchmaking.getContentPane().add(comboBox);
-		
-		List<Spiel> games = controller.allGames();
-		games.toFirst();
-		while(games.hasAccess()) {
-			comboBox.addItem(new ComboItem(games.getContent().getType(), games.getContent().getType()));
-			games.next();
-		}
+		JComboBox cbGameSelect = new JComboBox();
+		cbGameSelect.setBounds(314, 35, 125, 22);
+		matchmaking.getContentPane().add(cbGameSelect);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(265, 262, 259, 311);
@@ -111,8 +103,8 @@ public class MatchmakingGUI {
 		bWinner0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				//int teamID = (Integer) tableUpcoming.getValueAt(tableUpcoming.getSelectedRow(), 1);
-				//controller.addWin(1, teamID);
+				int teamID = (Integer) tableUpcoming.getValueAt(tableUpcoming.getSelectedRow(), 1);
+				controller.addWin(1, teamID);
 			}
 		});
 		bWinner0.setBounds(77, 147, 105, 23);
@@ -140,7 +132,6 @@ public class MatchmakingGUI {
 		
 		JLabel label = new JLabel("Next Matches:");
 		Font font = label.getFont();
-		@SuppressWarnings("rawtypes")
 		Map attributes = font.getAttributes();
 		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 		label.setFont(font.deriveFont(attributes));

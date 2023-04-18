@@ -5,8 +5,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.awt.font.TextAttribute;
-import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -21,7 +19,8 @@ public class MatchmakingGUI {
 
 	JFrame matchmaking;
 	private Controller controller;
-	private JTable tableUpcoming;
+	private JTable table0;
+	private JTable table1;
 
 	/**
 	 * Launch the application.
@@ -45,7 +44,6 @@ public class MatchmakingGUI {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	@SuppressWarnings("unchecked")
 	private void initialize() {
 		matchmaking = new JFrame();
 		matchmaking.setResizable(false);
@@ -68,64 +66,66 @@ public class MatchmakingGUI {
 		JLabel lblNewLabel = new JLabel("VS.");
 		lblNewLabel.setFont(new Font("Year supply of fairy cakes", Font.BOLD, 72));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(314, 48, 144, 137);
+		lblNewLabel.setBounds(304, 211, 173, 176);
 		matchmaking.getContentPane().add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("Select Game:");
 		lblNewLabel_1.setBounds(314, 11, 125, 14);
 		matchmaking.getContentPane().add(lblNewLabel_1);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(314, 35, 125, 22);
-		matchmaking.getContentPane().add(comboBox);
-		
-		List<Spiel> games = controller.allGames();
-		games.toFirst();
-		while(games.hasAccess()) {
-			comboBox.addItem(new ComboItem(games.getContent().getType(), games.getContent().getType()));
-			games.next();
-		}
+		JComboBox cbGameSelect = new JComboBox();
+		cbGameSelect.setBounds(314, 35, 125, 22);
+		matchmaking.getContentPane().add(cbGameSelect);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(265, 262, 259, 311);
+		scrollPane.setBounds(44, 94, 220, 492);
 		matchmaking.getContentPane().add(scrollPane);
 
-		tableUpcoming = new JTable() {
+		table0 = new JTable() {
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 		};
-		tableUpcoming.getTableHeader().setReorderingAllowed(false);
-		tableUpcoming.getTableHeader().setResizingAllowed(false);
-		tableUpcoming.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Match ID", "Team IDs", "Teams"
+		table0.getTableHeader().setReorderingAllowed(false);
+		table0.getTableHeader().setResizingAllowed(false);
+		table0.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Game No.", "Team ID", "Teamname" }));
+		scrollPane.setViewportView(table0);
+
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(531, 94, 220, 492);
+		matchmaking.getContentPane().add(scrollPane_1);
+
+		table1 = new JTable() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
 			}
-		));
-		scrollPane.setViewportView(tableUpcoming);
+		};
+		table1.getTableHeader().setReorderingAllowed(false);
+		table1.getTableHeader().setResizingAllowed(false);
+		table1.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Game No.", "Team ID", "Teamname" }));
+		scrollPane_1.setViewportView(table1);
 
 		JButton bWinner0 = new JButton("Declare Winner");
 		bWinner0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				//int teamID = (Integer) tableUpcoming.getValueAt(tableUpcoming.getSelectedRow(), 1);
-				//controller.addWin(1, teamID);
+				int teamID = (Integer) table0.getValueAt(table0.getSelectedRow(), 1);
+				controller.addWin(1, teamID);
 			}
 		});
-		bWinner0.setBounds(77, 147, 105, 23);
+		bWinner0.setBounds(106, 597, 105, 23);
 		matchmaking.getContentPane().add(bWinner0);
 
 		JButton bWinner1 = new JButton("Declare Winner");
 		bWinner1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				//int teamID = (Integer) table1.getValueAt(table1.getSelectedRow(), 1);
+				int teamID = (Integer) table1.getValueAt(table1.getSelectedRow(), 1);
 			}
 		});
-		bWinner1.setBounds(596, 147, 105, 23);
+		bWinner1.setBounds(596, 597, 105, 23);
 		matchmaking.getContentPane().add(bWinner1);
 
 		JButton bShuffle = new JButton("Create Matchmaking Order");
@@ -135,37 +135,7 @@ public class MatchmakingGUI {
 			}
 		});
 		bShuffle.setEnabled(false);
-		bShuffle.setBounds(298, 584, 179, 23);
+		bShuffle.setBounds(304, 597, 173, 23);
 		matchmaking.getContentPane().add(bShuffle);
-		
-		JLabel label = new JLabel("Next Matches:");
-		Font font = label.getFont();
-		@SuppressWarnings("rawtypes")
-		Map attributes = font.getAttributes();
-		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-		label.setFont(font.deriveFont(attributes));
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setBounds(265, 237, 253, 14);
-		matchmaking.getContentPane().add(label);
-		
-		JLabel lblNewLabel_2 = new JLabel("Team 1:");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblNewLabel_2.setBounds(38, 59, 46, 14);
-		matchmaking.getContentPane().add(lblNewLabel_2);
-		
-		JLabel lblNewLabel_2_1 = new JLabel("Team 2:");
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblNewLabel_2_1.setBounds(553, 59, 46, 14);
-		matchmaking.getContentPane().add(lblNewLabel_2_1);
-		
-		JLabel lTeam1 = new JLabel("");
-		lTeam1.setHorizontalAlignment(SwingConstants.CENTER);
-		lTeam1.setBounds(77, 109, 105, 27);
-		matchmaking.getContentPane().add(lTeam1);
-		
-		JLabel lTeam2 = new JLabel("");
-		lTeam2.setHorizontalAlignment(SwingConstants.CENTER);
-		lTeam2.setBounds(596, 109, 105, 27);
-		matchmaking.getContentPane().add(lTeam2);
 	}
 }

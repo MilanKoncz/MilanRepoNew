@@ -4,7 +4,6 @@ public class Spiel {
 	private String typ;
 	private int id;
 	private int idCounter = 1;
-	private boolean matchOrder = false;
 	private List<Team> alleTeams = new List<Team>();
 	
 	public Spiel(String pTyp, int pID) {
@@ -41,14 +40,6 @@ public class Spiel {
 	
 	public int getidCounter() {
 		return idCounter;
-	}
-
-	public boolean getMatchOrder() {
-		return matchOrder;
-	}
-
-	public void setMatchOrder(boolean pMatchOrder) {
-		matchOrder = pMatchOrder;
 	}
 	
 }
