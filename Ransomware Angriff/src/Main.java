@@ -1,13 +1,15 @@
 
 public class Main {
-
+	
+	static Graph network = new Graph();
+	
 	public static void main(String[] args) {
 		/*
 		 * Ransomware Algorithmus: -breitensuche
 		 * 
 		 */
 
-		Graph network = new Graph();
+		
 
 		network.addVertex(new Vertex("PC1"));
 		network.addVertex(new Vertex("PC2")); // start
@@ -32,6 +34,14 @@ public class Main {
 		network.addEdge(new Edge(network.getVertex("Erdkunde Vorbereitung"), network.getVertex("PC3"), 14));
 		network.addEdge(new Edge(network.getVertex("Erdkunde Vorbereitung"), network.getVertex("SLZ"), 8));
 
+		breitenSuche();
+		System.out.println("-----------------------------------------------------------");
+		gewichteteSuche();
+		
+		
+	}
+	
+	public static void breitenSuche() {
 		network.setAllVertexMarks(false);
 		network.getVertex("PC2").setMark(true);
 		
@@ -44,23 +54,34 @@ public class Main {
 			neighbours = network.getNeighbours(activeVertex);
 			neighbours.toFirst();
 			while(neighbours.hasAccess()) {
-				queue.enqueue(neighbours.getContent());
-				neighbours.next();
+				if(neighbours.getContent().isMarked()) {
+					neighbours.next();
+				}else {
+					queue.enqueue(neighbours.getContent());
+					neighbours.next();
+				}
+				
 			}
 			
 			activeVertex = queue.front();
 			queue.dequeue();
-			activeVertex.setMark(true);
-			
-			//while(!queue.isEmpty()) {
-			//	queue.front().setMark(true);
-			//	queue.dequeue();
-			//}
-			
-			
+			activeVertex.setMark(true);		
 		}
 		
-		
+		List<Vertex> all = network.getVertices();
+		all.toFirst();
+		while(all.hasAccess()) {
+			if(all.getContent().isMarked()) {
+				System.out.println(all.getContent().getID());
+				all.next();
+			}else {
+				System.out.println("Error");
+			}
+			
+		}
+	}
+	
+	public static void gewichteteSuche() {
 		
 	}
 

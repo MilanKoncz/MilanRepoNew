@@ -7,6 +7,7 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\Users\milan\Informatik\MilanRepoNew"/>
 			<item value="C:\Users\Admin\Documents\InfoLKQ1\MilansRepository\q1-6-programmierprojekt-MilanKoncz\FinalLigaSystem"/>
 			<item value="C:\Users\Admin\Documents\InfoLKQ1\MilansRepository\q1-6-programmierprojekt-MilanKoncz\Ligasystem"/>
 		</list>
@@ -22,5 +23,9 @@
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
 			<item value="C:\Users\Admin\Documents\InfoLKQ1\RobinsRepositories\q1-6-programmierprojekt-RobinDietel\LigaVerwaltungChanges"/>
 		</list>
+	</section>
+	<section name="ChooseWorkspaceDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="1494"/>
+		<item key="DIALOG_Y_ORIGIN" value="756"/>
 	</section>
 </section>
