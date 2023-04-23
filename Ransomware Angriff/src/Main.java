@@ -1,15 +1,12 @@
 
 public class Main {
-	
-	static Graph network = new Graph();
-	
+
 	public static void main(String[] args) {
 		/*
 		 * Ransomware Algorithmus: -breitensuche
 		 * 
 		 */
-
-		
+		Graph network = new Graph();
 
 		network.addVertex(new Vertex("PC1"));
 		network.addVertex(new Vertex("PC2")); // start
@@ -34,55 +31,105 @@ public class Main {
 		network.addEdge(new Edge(network.getVertex("Erdkunde Vorbereitung"), network.getVertex("PC3"), 14));
 		network.addEdge(new Edge(network.getVertex("Erdkunde Vorbereitung"), network.getVertex("SLZ"), 8));
 
-		breitenSuche();
+		breitenTraversierung(network, network.getVertex("PC2"));
 		System.out.println("-----------------------------------------------------------");
-		gewichteteSuche();
-		
-		
+		greedyAlgorithmus(network, network.getVertex("PC2"));
+		//System.out.println("-----------------------------------------------------------");
+		//other Methods
+		//System.out.println("-----------------------------------------------------------");
+		//other Methods
 	}
-	
-	public static void breitenSuche() {
+
+	public static void breitenTraversierung(Graph network, Vertex pStart) {
 		network.setAllVertexMarks(false);
-		network.getVertex("PC2").setMark(true);
-		
+		pStart.setMark(true);
+
 		List<Vertex> neighbours = new List<Vertex>();
+		List<Vertex> path = new List<Vertex>();
 		Queue<Vertex> queue = new Queue<Vertex>();
-		Vertex activeVertex = network.getVertex("PC2");
-		
-		while(network.allVerticesMarked() != true) {
-			
+		Vertex activeVertex = pStart;
+
+		while (network.allVerticesMarked() != true) {
+
 			neighbours = network.getNeighbours(activeVertex);
 			neighbours.toFirst();
-			while(neighbours.hasAccess()) {
-				if(neighbours.getContent().isMarked()) {
+			while (neighbours.hasAccess()) {
+				if (neighbours.getContent().isMarked()) {
 					neighbours.next();
-				}else {
+				} else {
 					queue.enqueue(neighbours.getContent());
 					neighbours.next();
 				}
-				
+
 			}
-			
+
 			activeVertex = queue.front();
+			path.append(activeVertex);
 			queue.dequeue();
-			activeVertex.setMark(true);		
+			activeVertex.setMark(true);
 		}
-		
-		List<Vertex> all = network.getVertices();
-		all.toFirst();
-		while(all.hasAccess()) {
-			if(all.getContent().isMarked()) {
-				System.out.println(all.getContent().getID());
-				all.next();
-			}else {
+
+		path.toFirst();
+		while (path.hasAccess()) {
+			if (path.getContent().isMarked()) {
+				System.out.println(path.getContent().getID());
+				path.next();
+			} else {
 				System.out.println("Error");
 			}
-			
+
 		}
 	}
-	
-	public static void gewichteteSuche() {
-		
+
+	public static void greedyAlgorithmus(Graph network, Vertex pStart) {
+
+		network.setAllVertexMarks(false);
+		pStart.setMark(true);
+
+		List<Vertex> neighbours = new List<Vertex>();
+		List<Vertex> path = new List<Vertex>();
+		Vertex activeVertex = pStart;
+		Vertex tmpVertex;
+		double w1;
+		double w2;
+		double pathLenght = 0;
+
+		while (network.allVerticesMarked() != true) {
+
+			neighbours = network.getNeighbours(activeVertex);
+			neighbours.toFirst();
+			while (neighbours.hasAccess()) {
+				if (neighbours.getContent().isMarked()) {
+					neighbours.next();
+				} else {
+					tmpVertex = neighbours.getContent();
+					w1 = network.getEdge(activeVertex, tmpVertex).getWeight();
+					neighbours.next();
+					w2 = network.getEdge(activeVertex, tmpVertex).getWeight();
+				}
+
+			}
+
+		}
+
+		path.toFirst();
+		while (path.hasAccess()) {
+			if (path.getContent().isMarked()) {
+				System.out.println(path.getContent().getID());
+				path.next();
+			} else {
+				System.out.println("Error");
+			}
+
+		}
+	}
+
+	public static void breitenSuche(Graph network, Vertex pStart, Vertex pZiel) {
+
+	}
+
+	public static void tiefennSuche(Graph network, Vertex pStart, Vertex pZiel) {
+
 	}
 
 }
