@@ -31,11 +31,14 @@ public class Main {
 		network.addEdge(new Edge(network.getVertex("Erdkunde Vorbereitung"), network.getVertex("PC3"), 14));
 		network.addEdge(new Edge(network.getVertex("Erdkunde Vorbereitung"), network.getVertex("SLZ"), 8));
 
-		System.out.println("-----------------------------------------------------------breitenTraversal-----------------------------------------------------------");
+		System.out.println(
+				"-----------------------------------------------------------breitenTraversal-----------------------------------------------------------");
 		breitenTraversal(network, network.getVertex("PC2"));
-		System.out.println("-----------------------------------------------------------greedyAlgorithmTraversal-----------------------------------------------------------");
+		System.out.println(
+				"-----------------------------------------------------------greedyAlgorithmTraversal-----------------------------------------------------------");
 		greedyAlgorithmTraversal(network, network.getVertex("PC2"));
-		System.out.println("-----------------------------------------------------------breitenSuche-----------------------------------------------------------");
+		System.out.println(
+				"-----------------------------------------------------------breitenSuche-----------------------------------------------------------");
 		List<Vertex> path = breitenSuche(network, network.getVertex("PC2"), network.getVertex("Ruheraum"));
 		path.toFirst();
 		while (path.hasAccess()) {
@@ -47,8 +50,8 @@ public class Main {
 			}
 
 		}
-		//System.out.println("-----------------------------------------------------------");
-		//other Methods
+		// System.out.println("-----------------------------------------------------------");
+		// other Methods
 	}
 
 	public static void breitenTraversal(Graph network, Vertex pStart) {
@@ -117,9 +120,9 @@ public class Main {
 					neighbours.next();
 				} else {
 					w2 = network.getEdge(activeVertex, neighbours.getContent()).getWeight();
-					if(w1 < w2) {
+					if (w1 < w2) {
 						neighbours.next();
-					}else {
+					} else {
 						w1 = w2;
 						pathLenght += w1;
 						neighbours.next();
@@ -133,7 +136,7 @@ public class Main {
 		}
 
 		System.out.println("Pathlenght: " + pathLenght);
-		
+
 		path.toFirst();
 		while (path.hasAccess()) {
 			if (path.getContent().isMarked()) {
@@ -164,14 +167,14 @@ public class Main {
 				if (neighbours.getContent().isMarked()) {
 					neighbours.next();
 				} else {
-					if(neighbours.getContent().equals(pZiel)) {
+					if (neighbours.getContent().equals(pZiel)) {
 						path.append(neighbours.getContent());
 						return path;
-					}else {
+					} else {
 						queue.enqueue(neighbours.getContent());
 						neighbours.next();
 					}
-					
+
 				}
 
 			}
@@ -195,8 +198,21 @@ public class Main {
 		return path;
 	}
 
-	public static void tiefenSuche(Graph network, Vertex pStart, Vertex pZiel) {
-		
+	public static void tiefenTraversal(Graph network, Vertex vertex) {
+		network.setAllVertexMarks(false);
+		vertex.setMark(true);
+		List<Vertex> neighbours = network.getNeighbours(vertex);
+		neighbours.toFirst();
+		while (neighbours.hasAccess()) {
+			Vertex neighbour = neighbours.getContent();
+			if (!neighbour.isMarked()) {
+				tiefenTraversal(network, neighbour);
+			}
+			neighbours.next();
+		}
 	}
 
-}
+	
+	}
+
+
