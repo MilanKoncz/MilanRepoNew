@@ -198,7 +198,7 @@ public class Main {
 		return path;
 	}
 
-	public static void tiefenTraversal(Graph network, Vertex vertex) {
+	public static void tiefenSuche(Graph network, Vertex vertex, Vertex pZiel) {
 		network.setAllVertexMarks(false);
 		vertex.setMark(true);
 		List<Vertex> neighbours = network.getNeighbours(vertex);
@@ -206,13 +206,18 @@ public class Main {
 		while (neighbours.hasAccess()) {
 			Vertex neighbour = neighbours.getContent();
 			if (!neighbour.isMarked()) {
-				tiefenTraversal(network, neighbour);
+				if(vertex.equals(pZiel)) {
+					break;
+				}else {
+					tiefenSuche(network, neighbour, pZiel);
+				}
+				
 			}
 			neighbours.next();
 		}
 	}
 
 	
-	}
+}
 
 
