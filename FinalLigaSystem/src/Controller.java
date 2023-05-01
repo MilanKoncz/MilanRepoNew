@@ -158,4 +158,17 @@ public class Controller{
 	public void delPlayer(int pGameID, int pTeamID, int pPlayerID) {
 		vw.delPlayer(pGameID, pTeamID, pPlayerID);
 	}
+	
+	public List<Match> listShuffle(List<Team> pList, Spiel pSpiel) {
+		return vw.listShuffle(pList, pSpiel);
+	}
+	
+	public List<Spiel> createGameListCopy(List<Spiel> pList) {
+		return vw.createGameListCopy(pList);
+	}
+
+	public List<Team> createTeamListCopy(List<Team> pList) {
+		return vw.createTeamListCopy(pList);
+	}
+
 }

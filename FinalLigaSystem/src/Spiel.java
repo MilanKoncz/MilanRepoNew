@@ -4,9 +4,11 @@ public class Spiel {
 	private String typ;
 	private int id;
 	private int idCounter = 1;
+	private int matchIDCounter = 1;
 	private boolean matchOrder = false;
 	
 	private List<Team> alleTeams = new List<Team>();
+	private List<Match> matches = new List<Match>();
 	
 	public Spiel(String pTyp, int pID) {
 		typ = pTyp;
@@ -16,6 +18,19 @@ public class Spiel {
 	public void addTeam(Team pTeam) {
 		idCounter++;
 		alleTeams.append(pTeam);
+	}
+	
+	public void addMatch(Match pMatch) {
+		matchIDCounter++;
+		matches.append(pMatch);
+	}
+	
+	public void setMatches(List<Match> pMatches) {
+		matches = pMatches;
+	}
+	
+	public List<Match> getMatchList() {
+		return matches;
 	}
 	
 	public List<Team> getTeamList(){

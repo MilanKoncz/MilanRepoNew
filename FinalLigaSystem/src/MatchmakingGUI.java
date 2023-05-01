@@ -3,6 +3,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
@@ -10,6 +12,7 @@ import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JComboBox;
@@ -22,6 +25,15 @@ public class MatchmakingGUI {
 	JFrame matchmaking;
 	private Controller controller;
 	private JTable tableUpcoming;
+	private JComboBox comboBox;
+	private JButton bShuffle;
+	private List<Match> matches = new List<Match>();
+	private JLabel lTeam1;
+	private JLabel lTeam2;
+	private Team team1;
+	private Team team2;
+	private JButton bWinner0;
+	private JButton bWinner1;
 
 	/**
 	 * Launch the application.
@@ -75,25 +87,12 @@ public class MatchmakingGUI {
 		lblNewLabel_1.setBounds(314, 11, 125, 14);
 		matchmaking.getContentPane().add(lblNewLabel_1);
 
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setBounds(314, 35, 125, 22);
 		matchmaking.getContentPane().add(comboBox);
-		
-		List<Spiel> games = controller.allGames();
-		games.toFirst();
-		while(games.hasAccess()) {
-			comboBox.addItem(new ComboItem(games.getContent().getType(), games.getContent()));
-			games.next();
-		}
 
-		comboBox.addActionListener (new ActionListener () {
-		    public void actionPerformed(ActionEvent e) {
-		        
-		    }
-		});
-		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(265, 262, 259, 311);
+		scrollPane.setBounds(138, 262, 512, 311);
 		matchmaking.getContentPane().add(scrollPane);
 
 		tableUpcoming = new JTable() {
@@ -104,46 +103,55 @@ public class MatchmakingGUI {
 		};
 		tableUpcoming.getTableHeader().setReorderingAllowed(false);
 		tableUpcoming.getTableHeader().setResizingAllowed(false);
-		tableUpcoming.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Match ID", "Team IDs", "Teams"
-			}
-		));
+		tableUpcoming
+				.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Match ID", "Team IDs", "Teams" }));
 		scrollPane.setViewportView(tableUpcoming);
 
-		JButton bWinner0 = new JButton("Declare Winner");
+		bWinner0 = new JButton("Declare Winner");
+		bWinner0.setEnabled(false);
 		bWinner0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				//int teamID = (Integer) tableUpcoming.getValueAt(tableUpcoming.getSelectedRow(), 1);
-				//controller.addWin(1, teamID);
+				team1.addWin();
+				bWinner0.setEnabled(false);
+				bWinner1.setEnabled(false);
 			}
 		});
 		bWinner0.setBounds(77, 147, 105, 23);
 		matchmaking.getContentPane().add(bWinner0);
 
-		JButton bWinner1 = new JButton("Declare Winner");
+		bWinner1 = new JButton("Declare Winner");
+		bWinner1.setEnabled(false);
 		bWinner1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				//int teamID = (Integer) table1.getValueAt(table1.getSelectedRow(), 1);
+				team2.addWin();
+				bWinner0.setEnabled(false);
+				bWinner1.setEnabled(false);
 			}
 		});
 		bWinner1.setBounds(596, 147, 105, 23);
 		matchmaking.getContentPane().add(bWinner1);
 
-		JButton bShuffle = new JButton("Create Matchmaking Order");
+		bShuffle = new JButton("Create Matchmaking Order");
 		bShuffle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				ComboItem activeItem = (ComboItem) comboBox.getSelectedItem();
+				Spiel activeGame = activeItem.getValue();
+				List<Team> list = controller
+						.createTeamListCopy(((ComboItem) comboBox.getSelectedItem()).getValue().getTeamList());
+				matches = controller.listShuffle(list, activeGame);
+				activeGame.setMatchOrder(true);
+				bShuffle.setEnabled(false);
+				updateTable();
 
 			}
 		});
 		bShuffle.setEnabled(false);
 		bShuffle.setBounds(298, 584, 179, 23);
 		matchmaking.getContentPane().add(bShuffle);
-		
+
 		JLabel label = new JLabel("Next Matches:");
 		Font font = label.getFont();
 		@SuppressWarnings("rawtypes")
@@ -153,37 +161,104 @@ public class MatchmakingGUI {
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setBounds(265, 237, 253, 14);
 		matchmaking.getContentPane().add(label);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Team 1:");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		lblNewLabel_2.setBounds(38, 59, 46, 14);
 		matchmaking.getContentPane().add(lblNewLabel_2);
-		
+
 		JLabel lblNewLabel_2_1 = new JLabel("Team 2:");
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		lblNewLabel_2_1.setBounds(553, 59, 46, 14);
 		matchmaking.getContentPane().add(lblNewLabel_2_1);
-		
-		JLabel lTeam1 = new JLabel("");
+
+		lTeam1 = new JLabel("");
 		lTeam1.setHorizontalAlignment(SwingConstants.CENTER);
 		lTeam1.setBounds(77, 109, 105, 27);
 		matchmaking.getContentPane().add(lTeam1);
-		
-		JLabel lTeam2 = new JLabel("");
+
+		lTeam2 = new JLabel("");
 		lTeam2.setHorizontalAlignment(SwingConstants.CENTER);
 		lTeam2.setBounds(596, 109, 105, 27);
 		matchmaking.getContentPane().add(lTeam2);
+
+		updateCombo();
+		updateTable();
+
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				bShuffle.setEnabled(false);
+				updateTable();
+
+			}
+		});
+
+		ListSelectionModel listSelectionModel0 = (ListSelectionModel) tableUpcoming.getSelectionModel();
+		listSelectionModel0.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent event) {
+
+				bWinner0.setEnabled(true);
+				bWinner1.setEnabled(true);
+
+				DefaultTableModel model = (DefaultTableModel) tableUpcoming.getModel();
+				Match activeMatch = null;
+				int matchID = (Integer) tableUpcoming.getValueAt(tableUpcoming.getSelectedRow(), 0);
+
+				matches.toFirst();
+				while (matches.hasAccess()) {
+					if (matches.getContent().getMatchID() == matchID) {
+						activeMatch = matches.getContent();
+					}
+					matches.next();
+				}
+				
+				if (activeMatch != null) {
+					team1 = activeMatch.getTeam0();
+					team2 = activeMatch.getTeam1();
+
+					lTeam1.setText(team1.getTeamname());
+					lTeam2.setText(team2.getTeamname());
+				}
+
+			}
+		});
+
 	}
-	
-	public void updateTable() {
-		DefaultTableModel model = (DefaultTableModel) tableUpcoming.getModel();
-		model.setRowCount(0);
+
+	public void updateCombo() {
 		List<Spiel> games = controller.allGames();
 		games.toFirst();
 		while (games.hasAccess()) {
-			model.addRow(new Object[] {  });
+			comboBox.addItem(new ComboItem(games.getContent().getType(), games.getContent()));
 			games.next();
 		}
 	}
-	
+
+	public void updateTable() {
+		if (((ComboItem) comboBox.getSelectedItem()) != null) {
+			ComboItem activeItem = (ComboItem) comboBox.getSelectedItem();
+			Spiel activeGame = activeItem.getValue();
+			List<Match> matchList = activeGame.getMatchList();
+			Match activeMatch;
+
+			DefaultTableModel model = (DefaultTableModel) tableUpcoming.getModel();
+			model.setRowCount(0);
+			if (activeGame.getMatchOrder()) {
+				matchList.toFirst();
+				while (matchList.hasAccess()) {
+					activeMatch = matchList.getContent();
+					model.addRow(new Object[] { activeMatch.getMatchID(), activeMatch.getTeamIDs(),
+							activeMatch.getTeamNames() });
+					matchList.next();
+				}
+
+			} else {
+				bShuffle.setEnabled(true);
+			}
+		}
+
+	}
+
 }

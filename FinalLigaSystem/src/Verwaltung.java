@@ -1,8 +1,9 @@
+import java.util.Random;
+
 public class Verwaltung {
 
 	private List<Spiel> alleSpiele = new List<Spiel>();
 	private int idCounter = 0;
-	private int matchIDCounter = 0;
 
 	public void testData() {
 		Spiel s0 = new Spiel("CSGO", 1);
@@ -82,20 +83,45 @@ public class Verwaltung {
 		return sortiert;
 	}
 
-	public String[][] listShuffle(List<Team> pList) {
+	public List<Match> listShuffle(List<Team> pList, Spiel pSpiel) {
 
-		int teamAmount = 0;
-
+		int matchIDCounter = 1;
+		List<Match> matches = new List<Match>();
+		
+		// List to Array
+		int z = 0;
 		pList.toFirst();
 		while (pList.hasAccess()) {
-			teamAmount++;
+			z++;
 			pList.next();
 		}
 
-		int rounds = teamAmount / 2;
-		String[][] schedule = new String[teamAmount - 1][rounds];
+		Team[] teams = new Team[z];
+		pList.toFirst();
+		for (int i = 0; i < teams.length; i++) {
+			teams[i] = pList.getContent();
+			pList.next();
+		}
+		
+		// Randomize Array
+		Random random = new Random();
+		for (int i = teams.length - 1; i > 0; i--) {
+			int index = random.nextInt(i + 1);
+			Team temp = teams[index];
+			teams[index] = teams[i];
+			teams[i] = temp;
+		}
 
-		return schedule;
+		// Create Matches
+		for (int i = 0; i < teams.length; i += 2) {
+	        Match match = new Match(matchIDCounter, teams[i], teams[i + 1]);
+	        matchIDCounter++;
+	        matches.append(match);
+	    }
+		
+		pSpiel.setMatches(matches);
+		return matches;
+
 	}
 
 	public List<Team> ligaStand(int pSpielID) {
@@ -200,14 +226,14 @@ public class Verwaltung {
 	public void delGame(int pGameID) {
 		alleSpiele.toFirst();
 		while (alleSpiele.hasAccess()) {
-			if(alleSpiele.getContent().getID() == pGameID) {
+			if (alleSpiele.getContent().getID() == pGameID) {
 				alleSpiele.remove();
-			}else {
+			} else {
 				alleSpiele.next();
 			}
-			
+
 		}
-		
+
 	}
 
 	public void delTeam(int pGameID, int pTeamID) {
@@ -215,14 +241,14 @@ public class Verwaltung {
 		List<Team> alleTeams = activeGame.getTeamList();
 		alleTeams.toFirst();
 		while (alleTeams.hasAccess()) {
-			if(alleTeams.getContent().getID() == pTeamID) {
+			if (alleTeams.getContent().getID() == pTeamID) {
 				alleTeams.remove();
-			}else {
+			} else {
 				alleTeams.next();
 			}
-			
+
 		}
-		
+
 	}
 
 	public void delPlayer(int pGameID, int pTeamID, int pPlayerID) {
@@ -231,13 +257,13 @@ public class Verwaltung {
 		List<Spieler> alleSpieler = activeTeam.getPlayerList();
 		alleSpieler.toFirst();
 		while (alleSpieler.hasAccess()) {
-			if(alleSpieler.getContent().getID() == pPlayerID) {
+			if (alleSpieler.getContent().getID() == pPlayerID) {
 				alleSpieler.remove();
-			}else {
+			} else {
 				alleSpieler.next();
 			}
-			
+
 		}
-		
+
 	}
 }

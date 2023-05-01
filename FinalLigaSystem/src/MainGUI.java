@@ -57,7 +57,7 @@ public class MainGUI {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	@SuppressWarnings("serial")
+
 	private void initialize() {
 		frmLigasystemV = new JFrame();
 		frmLigasystemV.setTitle("LigaSystem V3");
@@ -281,6 +281,8 @@ public class MainGUI {
 				bDelTeam.setEnabled(false);
 				bDelPlayer.setEnabled(false);
 				bAddTeam.setEnabled(false);
+				bLiga.setEnabled(false);
+				bAddPlayer.setEnabled(false);
 			}
 		});
 		bDelGame.setBounds(320, 316, 266, 23);
