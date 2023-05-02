@@ -90,6 +90,10 @@ public class MatchmakingGUI {
 		comboBox = new JComboBox();
 		comboBox.setBounds(314, 35, 125, 22);
 		matchmaking.getContentPane().add(comboBox);
+		
+		Spiel s0 = new Spiel(null, 0);
+		s0.setMatchOrder(true);
+		comboBox.addItem(new ComboItem("<Select Game>", s0));
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(138, 262, 512, 311);
@@ -115,6 +119,27 @@ public class MatchmakingGUI {
 				team1.addWin();
 				bWinner0.setEnabled(false);
 				bWinner1.setEnabled(false);
+				lTeam1.setText("");
+				lTeam2.setText("");
+				
+				if(tableUpcoming.getSelectedRow() != -1) {
+					ComboItem activeItem = (ComboItem) comboBox.getSelectedItem();
+					Spiel activeGame = activeItem.getValue();
+					List<Match> matchList = activeGame.getMatchList();
+					int matchID = (Integer) tableUpcoming.getValueAt(tableUpcoming.getSelectedRow(), 0);
+					
+					matchList.toFirst();
+					while (matchList.hasAccess()) {
+						if (matchList.getContent().getMatchID() == matchID) {
+							matchList.remove();;
+							
+						}
+						matchList.next();
+					}
+					
+				}
+				
+				updateTable();
 			}
 		});
 		bWinner0.setBounds(77, 147, 105, 23);
@@ -128,6 +153,27 @@ public class MatchmakingGUI {
 				team2.addWin();
 				bWinner0.setEnabled(false);
 				bWinner1.setEnabled(false);
+				lTeam1.setText("");
+				lTeam2.setText("");
+				
+				if(tableUpcoming.getSelectedRow() != -1) {
+					ComboItem activeItem = (ComboItem) comboBox.getSelectedItem();
+					Spiel activeGame = activeItem.getValue();
+					List<Match> matchList = activeGame.getMatchList();
+					int matchID = (Integer) tableUpcoming.getValueAt(tableUpcoming.getSelectedRow(), 0);
+					
+					matchList.toFirst();
+					while (matchList.hasAccess()) {
+						if (matchList.getContent().getMatchID() == matchID) {
+							matchList.remove();;
+							
+						}
+						matchList.next();
+					}
+					
+				}
+				
+				updateTable();
 			}
 		});
 		bWinner1.setBounds(596, 147, 105, 23);
@@ -189,7 +235,11 @@ public class MatchmakingGUI {
 			public void actionPerformed(ActionEvent e) {
 
 				bShuffle.setEnabled(false);
+				bWinner0.setEnabled(false);
+				bWinner1.setEnabled(false);
 				updateTable();
+				lTeam1.setText("");
+				lTeam2.setText("");
 
 			}
 		});
@@ -198,29 +248,31 @@ public class MatchmakingGUI {
 		listSelectionModel0.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent event) {
+				if(tableUpcoming.getSelectedRow() != -1) {
+					
+					bWinner0.setEnabled(true);
+					bWinner1.setEnabled(true);
+					Match activeMatch = null;
+					int matchID = (Integer) tableUpcoming.getValueAt(tableUpcoming.getSelectedRow(), 0);
 
-				bWinner0.setEnabled(true);
-				bWinner1.setEnabled(true);
-
-				DefaultTableModel model = (DefaultTableModel) tableUpcoming.getModel();
-				Match activeMatch = null;
-				int matchID = (Integer) tableUpcoming.getValueAt(tableUpcoming.getSelectedRow(), 0);
-
-				matches.toFirst();
-				while (matches.hasAccess()) {
-					if (matches.getContent().getMatchID() == matchID) {
-						activeMatch = matches.getContent();
+					matches.toFirst();
+					while (matches.hasAccess()) {
+						if (matches.getContent().getMatchID() == matchID) {
+							activeMatch = matches.getContent();
+						}
+						matches.next();
 					}
-					matches.next();
+
+					if (activeMatch != null) {
+						team1 = activeMatch.getTeam0();
+						team2 = activeMatch.getTeam1();
+
+						lTeam1.setText(team1.getTeamname());
+						lTeam2.setText(team2.getTeamname());
+					}
 				}
 				
-				if (activeMatch != null) {
-					team1 = activeMatch.getTeam0();
-					team2 = activeMatch.getTeam1();
-
-					lTeam1.setText(team1.getTeamname());
-					lTeam2.setText(team2.getTeamname());
-				}
+				
 
 			}
 		});
