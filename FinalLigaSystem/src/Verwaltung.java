@@ -83,12 +83,36 @@ public class Verwaltung {
 		return sortiert;
 	}
 
-	public List<Match> listShuffle(List<Team> pList, Spiel pSpiel) {
+	public List<Match> listShuffle(List<Team> pList, Spiel pSpiel) throws ArrayIndexOutOfBoundsException, NotEnoughTeamsException{
+
+		// Das klappt irwie nich
+
+		/*
+		 * int matchIDCounter = 1; List<Match> matches = new List<Match>();
+		 * 
+		 * // List to Array int z = 0; pList.toFirst(); while (pList.hasAccess()) { z++;
+		 * pList.next(); }
+		 * 
+		 * Team[] teams = new Team[z]; pList.toFirst(); for (int i = 0; i <
+		 * teams.length; i++) { teams[i] = pList.getContent(); pList.next(); }
+		 * 
+		 * // Randomize Array Random random = new Random(); for (int i = teams.length -
+		 * 1; i > 0; i--) { int index = random.nextInt(i + 1); Team temp = teams[index];
+		 * teams[index] = teams[i]; teams[i] = temp; }
+		 * 
+		 * // Create Matches for (int i = 0; i < teams.length; i += 2) { Match match =
+		 * new Match(matchIDCounter, teams[i], teams[i + 1]); matchIDCounter++;
+		 * matches.append(match); }
+		 * 
+		 * pSpiel.setMatches(matches); return matches;
+		 */
+
+		// Das schon
 
 		int matchIDCounter = 1;
 		List<Match> matches = new List<Match>();
-		
-		// List to Array
+		List<Match> randMatches = new List<Match>();
+
 		int z = 0;
 		pList.toFirst();
 		while (pList.hasAccess()) {
@@ -102,25 +126,54 @@ public class Verwaltung {
 			teams[i] = pList.getContent();
 			pList.next();
 		}
-		
-		// Randomize Array
-		Random random = new Random();
-		for (int i = teams.length - 1; i > 0; i--) {
-			int index = random.nextInt(i + 1);
-			Team temp = teams[index];
-			teams[index] = teams[i];
-			teams[i] = temp;
+
+		for (int i = 0; i < teams.length - 1; i++) {
+			for (int j = i + 1; j < teams.length; j++) {
+				Match match = new Match(matchIDCounter, teams[i], teams[j]);
+				matchIDCounter++;
+				matches.append(match);
+			}
 		}
 
-		// Create Matches
-		for (int i = 0; i < teams.length; i += 2) {
-	        Match match = new Match(matchIDCounter, teams[i], teams[i + 1]);
-	        matchIDCounter++;
-	        matches.append(match);
-	    }
+		//Randomize
 		
-		pSpiel.setMatches(matches);
-		return matches;
+		 int x = 0;
+		 matches.toFirst();
+		    while (matches.hasAccess()) {
+		        x++;
+		        matches.next();
+		    }
+
+		    Match[] randTeams = new Match[x];
+		    matches.toFirst();
+		    for (int i = 0; i < randTeams.length; i++) {
+		    	randTeams[i] = matches.getContent();
+		        matches.next();
+		    }
+		    
+		    Random random = new Random();
+		    for (int i = randTeams.length - 1; i > 0; i--) {
+		        int index = random.nextInt(i + 1);
+		        Match temp = randTeams[index];
+		        randTeams[index] = randTeams[i];
+		        randTeams[i] = temp;
+		    }
+		    
+		    for (int i = 0; i < randTeams.length; i++) {
+		    	randMatches.append(randTeams[i]);
+		    }
+		
+		    int counter = 0;
+		    randMatches.toFirst();
+		    while(randMatches.hasAccess()) {
+		    	counter++;
+		    	randMatches.next();
+		    }
+		    
+		    if(counter < 2) throw new NotEnoughTeamsException("There must be more Teams to continue.");
+		    
+		pSpiel.setMatches(randMatches);
+		return randMatches;
 
 	}
 

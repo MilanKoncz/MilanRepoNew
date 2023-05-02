@@ -328,6 +328,8 @@ public class MainGUI {
 			@Override
 			public void valueChanged(ListSelectionEvent event) {
 				updateTeams();
+				DefaultTableModel modelLiga = (DefaultTableModel) tableLiga.getModel();
+				modelLiga.setRowCount(0);
 				DefaultTableModel model = (DefaultTableModel) tablePlayers.getModel();
 				model.setRowCount(0); // Game Table Listener
 				bAddTeam.setEnabled(true);

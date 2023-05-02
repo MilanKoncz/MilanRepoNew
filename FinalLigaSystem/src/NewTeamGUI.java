@@ -17,6 +17,7 @@ public class NewTeamGUI {
 	private JTextField tfName;
 	private Controller controller;
 	private MainGUI mainGUI;
+	private MatchmakingGUI matchmakingGUI;
 
 	/**
 	 * Launch the application.
@@ -30,9 +31,10 @@ public class NewTeamGUI {
 	 * @throws InstantiationException
 	 * @throws ClassNotFoundException
 	 */
-	public NewTeamGUI(Controller pController, MainGUI pMainGUI) throws ClassNotFoundException, InstantiationException,
+	public NewTeamGUI(Controller pController, MainGUI pMainGUI, MatchmakingGUI pMatchmakingGUI) throws ClassNotFoundException, InstantiationException,
 			IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		matchmakingGUI = pMatchmakingGUI;
 		controller = pController;
 		mainGUI = pMainGUI;
 		initialize();
@@ -73,6 +75,13 @@ public class NewTeamGUI {
 				JTable tablePlayer = mainGUI.getPlayerTable();
 				DefaultTableModel model = (DefaultTableModel) tablePlayer.getModel();
 				model.setRowCount(0);
+				int gameID = (Integer) mainGUI.getGameTable().getValueAt(tableGames.getSelectedRow(), 0);
+				controller.findActiveGame(gameID).setMatchOrder(false);
+				try {
+					matchmakingGUI.getErrorLabel().setText("");
+				}catch(NullPointerException el) {
+					
+				}
 				frmNeuesTeam.dispose();
 			}
 		});

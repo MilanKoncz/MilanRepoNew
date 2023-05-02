@@ -1,5 +1,7 @@
 import java.awt.EventQueue;
 
+import javax.swing.JLabel;
+
 public class Controller{
 
 	private Verwaltung vw;
@@ -51,7 +53,7 @@ public class Controller{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					newTeamGUI = new NewTeamGUI(controller, mainGUI);
+					newTeamGUI = new NewTeamGUI(controller, mainGUI, getMatchmakingGUI);
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -159,7 +161,7 @@ public class Controller{
 		vw.delPlayer(pGameID, pTeamID, pPlayerID);
 	}
 	
-	public List<Match> listShuffle(List<Team> pList, Spiel pSpiel) {
+	public List<Match> listShuffle(List<Team> pList, Spiel pSpiel) throws NotEnoughTeamsException {
 		return vw.listShuffle(pList, pSpiel);
 	}
 	
@@ -169,6 +171,10 @@ public class Controller{
 
 	public List<Team> createTeamListCopy(List<Team> pList) {
 		return vw.createTeamListCopy(pList);
+	}
+	
+	public JLabel getErrorLabel() {
+		return getMatchmakingGUI.getErrorLabel();
 	}
 
 }
