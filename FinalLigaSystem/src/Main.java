@@ -8,13 +8,6 @@ public class Main {
 		
 		controller.startMainGUI();
 		
-		/*
-		 * ToDo-List
-		 * -ListShuffle
-		 * -Persistent saving (serialize objects in json)
-		 * -Comboboxes
-
-		 */
 	}
 	
 }
